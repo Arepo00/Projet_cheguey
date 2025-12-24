@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/shadow" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textStyle="bold" android:textColor="@color/black" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="110.0dip" android:layout_marginTop="192.0dip" android:text="Enter Account Number" />
+    <EditText android:id="@id/edt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="150.0dip" android:layout_marginTop="220.0dip" />
+    <Button android:textColor="@color/white" android:background="@drawable/circle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="140.0dip" android:layout_marginTop="20.0dip" android:text="Add Benificiary" android:layout_below="@id/edt" android:onClick="addBeneficiary" />
+</RelativeLayout>

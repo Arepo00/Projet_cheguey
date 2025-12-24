@@ -1,0 +1,939 @@
+rules:
+  # =========================
+  # MASVS-PLATFORM (PLAT)
+  # =========================
+  - id: FS-PLAT-001
+    masvs: MASVS-PLATFORM
+    title: "Réduire l’exposition des composants Android (android:exported)"
+    severity: HIGH
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-EXP-001", "AS-COMP-001", "NI-NET-001"]
+      keywords: ["exported", "component", "activity", "service", "receiver", "provider"]
+    rationale: >
+      Les composants exportés inutilement augmentent la surface d’attaque (intent hijacking, accès non autorisé).
+    steps:
+      - "Identifier les composants qui n’ont pas besoin d’être accessibles depuis l’extérieur."
+      - "Mettre android:exported=\"false\" par défaut et documenter les exceptions."
+      - "Si nécessaire, protéger par permission/signature."
+    actions:
+      - type: MANIFEST_SET_EXPORTED_FALSE
+        target_file: AndroidManifest.xml
+
+  - id: FS-PLAT-002
+    masvs: MASVS-PLATFORM
+    title: "Désactiver le mode debug en production (android:debuggable)"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["AS-DBG-001"]
+      keywords: ["debuggable", "debug", "buildtype", "release"]
+    rationale: >
+      Une app debuggable facilite l’analyse dynamique et l’instrumentation.
+    steps:
+      - "Vérifier que android:debuggable n’est jamais true sur le build release."
+      - "S’assurer que les builds CI/CD publient uniquement la variante release."
+    actions: []
+
+  - id: FS-PLAT-003
+    masvs: MASVS-PLATFORM
+    title: "Limiter android:allowBackup et sauvegardes auto"
+    severity: MEDIUM
+    confidence: HIGH
+    match:
+      finding_ids: ["AS-BACKUP-001"]
+      keywords: ["allowbackup", "fullbackupcontent", "backup"]
+    rationale: >
+      La sauvegarde peut exposer des données locales sensibles (preferences, DB, fichiers).
+    steps:
+      - "Mettre android:allowBackup=\"false\" si l’app manipule des données sensibles."
+      - "Sinon, définir des règles de backup (fullBackupContent) et exclure les fichiers sensibles."
+    actions: []
+
+  - id: FS-PLAT-004
+    masvs: MASVS-PLATFORM
+    title: "Réduire les permissions dangereuses non nécessaires"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-PERM-001"]
+      keywords: ["permission", "dangerous", "read_contacts", "read_sms", "access_fine_location"]
+    rationale: >
+      Les permissions inutiles augmentent les impacts en cas de compromission.
+    steps:
+      - "Supprimer les permissions non indispensables."
+      - "Utiliser permissions au runtime uniquement quand nécessaire (et justifier)."
+    actions: []
+
+  - id: FS-PLAT-005
+    masvs: MASVS-PLATFORM
+    title: "Durcir les ContentProvider exportés"
+    severity: HIGH
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-PROV-001"]
+      keywords: ["contentprovider", "provider", "authorities", "granturipermissions"]
+    rationale: >
+      Un provider exporté peut permettre l’exfiltration/altération de données.
+    steps:
+      - "Éviter exported=true sur les providers internes."
+      - "Ajouter readPermission/writePermission et valider les URIs."
+      - "Limiter grantUriPermissions et utiliser FileProvider correctement."
+    actions: []
+
+  - id: FS-PLAT-006
+    masvs: MASVS-PLATFORM
+    title: "Vérifier PendingIntent mutability (FLAG_IMMUTABLE/FLAG_MUTABLE)"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-PENDING-001"]
+      keywords: ["pendingintent", "flag_immutable", "flag_mutable"]
+    rationale: >
+      Une mauvaise mutability peut permettre des attaques de type intent hijacking.
+    steps:
+      - "Mettre FLAG_IMMUTABLE par défaut (sauf besoin justifié)."
+      - "Auditer tous les PendingIntent utilisés (notifications, alarmes, services)."
+    actions: []
+
+  - id: FS-PLAT-007
+    masvs: MASVS-PLATFORM
+    title: "Limiter les Intent Filters trop permissifs"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-INTENT-001"]
+      keywords: ["intent-filter", "browsable", "deep link", "scheme", "host"]
+    rationale: >
+      Des intent-filters trop larges exposent des surfaces d’entrée inattendues.
+    steps:
+      - "Réduire les schemes/hosts acceptés."
+      - "Valider les paramètres de deep links côté app."
+    actions: []
+
+  - id: FS-PLAT-008
+    masvs: MASVS-PLATFORM
+    title: "Éviter l’exécution dans des environnements non fiables (root/debugger) - guide"
+    severity: LOW
+    confidence: LOW
+    match:
+      finding_ids: ["AS-ROOT-001"]
+      keywords: ["root", "su", "frida", "debugger", "tamper"]
+    rationale: >
+      Détection root/tamper améliore la résilience mais ne remplace pas la sécurité serveur.
+    steps:
+      - "Ajouter des signaux (root/debugger) et logger côté serveur."
+      - "Dégrader certaines fonctionnalités si risque élevé."
+    actions: []
+
+  - id: FS-PLAT-009
+    masvs: MASVS-PLATFORM
+    title: "Ne pas exposer des receivers broadcast inutilement"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-RECV-001"]
+      keywords: ["receiver", "broadcast", "exported"]
+    rationale: >
+      Des receivers exportés peuvent être déclenchés par des apps tierces.
+    steps:
+      - "Mettre exported=false pour receivers internes."
+      - "Utiliser permissions/signature pour receivers critiques."
+    actions: []
+
+  - id: FS-PLAT-010
+    masvs: MASVS-PLATFORM
+    title: "Verrouiller FileProvider (paths minimaux)"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-FPROV-001"]
+      keywords: ["fileprovider", "paths", "external-path", "root-path", "cache-path"]
+    rationale: >
+      Des chemins trop larges exposent des fichiers sensibles.
+    steps:
+      - "Limiter les paths au strict nécessaire."
+      - "Éviter root-path/external-path globaux."
+    actions: []
+
+  # =========================
+  # MASVS-NETWORK (NET)
+  # =========================
+  - id: FS-NET-001
+    masvs: MASVS-NETWORK
+    title: "Bloquer le HTTP en clair (Network Security Config)"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["NI-NET-001"]
+      keywords: ["http", "cleartext", "usescleartexttraffic", "network security config"]
+    rationale: >
+      Le trafic HTTP expose identifiants/tokens et facilite MITM.
+    steps:
+      - "Définir un networkSecurityConfig interdisant cleartextTraffic."
+      - "Forcer HTTPS côté serveur et rediriger uniquement vers HTTPS."
+    actions: []
+
+  - id: FS-NET-002
+    masvs: MASVS-NETWORK
+    title: "Éviter TrustManager permissif / certificat accepté sans validation"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["NI-TLS-002"]
+      keywords: ["trustmanager", "x509trustmanager", "checkservertrusted", "acceptall"]
+    rationale: >
+      Un TrustManager permissif rend la connexion vulnérable au MITM.
+    steps:
+      - "Supprimer tout TrustManager 'accept all'."
+      - "Utiliser la validation TLS standard + pinning si besoin."
+    actions: []
+
+  - id: FS-NET-003
+    masvs: MASVS-NETWORK
+    title: "Éviter HostnameVerifier permissif"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["NI-TLS-003"]
+      keywords: ["hostnameverifier", "allowallhostnameverifier", "verify("]
+    rationale: >
+      Un HostnameVerifier permissif contourne la vérification du certificat.
+    steps:
+      - "Utiliser la validation par défaut (OkHttp/URLConnection)."
+      - "Ne jamais retourner true systématiquement."
+    actions: []
+
+  - id: FS-NET-004
+    masvs: MASVS-NETWORK
+    title: "Préférer TLS 1.2+ et suites robustes"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["NI-TLS-004"]
+      keywords: ["tlsv1", "sslv3", "weak cipher", "rc4", "3des"]
+    rationale: >
+      TLS obsolète et suites faibles augmentent le risque de compromission.
+    steps:
+      - "Configurer le client pour TLS 1.2/1.3 seulement."
+      - "Désactiver RC4/3DES et suites obsolètes."
+    actions: []
+
+  - id: FS-NET-005
+    masvs: MASVS-NETWORK
+    title: "Mettre en place le certificate pinning (si modèle de menace élevé)"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      finding_ids: ["NI-TLS-001"]
+      keywords: ["pinning", "certificate pin", "okhttp certificatepinner"]
+    rationale: >
+      Le pinning réduit le risque MITM, mais nécessite une gestion de rotation.
+    steps:
+      - "Implémenter CertificatePinner (OkHttp) avec rotation planifiée."
+      - "Prévoir stratégie de fallback/rollover."
+    actions: []
+
+  - id: FS-NET-006
+    masvs: MASVS-NETWORK
+    title: "Ne pas envoyer de secrets dans les URL (query string)"
+    severity: HIGH
+    confidence: MEDIUM
+    match:
+      finding_ids: ["NI-LEAK-001"]
+      keywords: ["token=", "apikey=", "authorization=", "session=", "password="]
+    rationale: >
+      Les URL peuvent être loggées (proxy, analytics, caches).
+    steps:
+      - "Envoyer secrets dans headers ou body chiffré."
+      - "Supprimer les logs côté client et serveur."
+    actions: []
+
+  - id: FS-NET-007
+    masvs: MASVS-NETWORK
+    title: "Ajouter HSTS côté serveur"
+    severity: MEDIUM
+    confidence: HIGH
+    match:
+      finding_ids: ["NI-HDR-001"]
+      keywords: ["strict-transport-security", "hsts"]
+    rationale: >
+      HSTS empêche les downgrades vers HTTP.
+    steps:
+      - "Ajouter Strict-Transport-Security sur les domaines HTTPS."
+      - "Inclure subdomains si applicable."
+    actions: []
+
+  - id: FS-NET-008
+    masvs: MASVS-NETWORK
+    title: "Ajouter X-Content-Type-Options / X-Frame-Options côté serveur"
+    severity: LOW
+    confidence: HIGH
+    match:
+      finding_ids: ["NI-HDR-001"]
+      keywords: ["x-content-type-options", "x-frame-options"]
+    rationale: >
+      Ces headers réduisent certains risques web (MIME sniffing, clickjacking).
+    steps:
+      - "Configurer X-Content-Type-Options: nosniff"
+      - "Configurer X-Frame-Options: DENY ou SAMEORIGIN"
+    actions: []
+
+  - id: FS-NET-009
+    masvs: MASVS-NETWORK
+    title: "Envisager CSP/Referrer-Policy/Permissions-Policy (si webviews/services)"
+    severity: LOW
+    confidence: MEDIUM
+    match:
+      finding_ids: ["NI-HDR-002"]
+      keywords: ["content-security-policy", "referrer-policy", "permissions-policy"]
+    rationale: >
+      Durcit l’exécution côté web (si contenu web présent).
+    steps:
+      - "Définir une CSP restrictive adaptée."
+      - "Mettre Referrer-Policy et Permissions-Policy."
+    actions: []
+
+  - id: FS-NET-010
+    masvs: MASVS-NETWORK
+    title: "Minimiser les données sensibles dans les headers"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["NI-LEAK-002"]
+      keywords: ["authorization", "cookie", "set-cookie", "bearer"]
+    rationale: >
+      Certains proxies/loggers collectent les headers.
+    steps:
+      - "Éviter de logguer Authorization/Cookie."
+      - "Réduire les scopes et TTL des tokens."
+    actions: []
+
+  # =========================
+  # MASVS-CRYPTO / MASVS-CODE (CODE)
+  # =========================
+  - id: FS-CODE-001
+    masvs: MASVS-CODE
+    title: "Activer R8/Proguard pour l’obfuscation et réduction"
+    severity: MEDIUM
+    confidence: HIGH
+    match:
+      finding_ids: ["AS-R8-001"]
+      keywords: ["obfuscation", "proguard", "r8", "minify", "shrink"]
+    rationale: >
+      Réduit la rétro-ingénierie, supprime du code mort et limite l’exposition des détails internes.
+    steps:
+      - "Activer minifyEnabled/shrinkResources en release."
+      - "Maintenir proguard-rules.pro propre (keep rules nécessaires)."
+    actions:
+      - type: GRADLE_ENABLE_R8
+        target_file: build.gradle
+
+  - id: FS-CODE-002
+    masvs: MASVS-CRYPTO
+    title: "Remplacer AES/ECB par AES-GCM"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["CC-001"]
+      keywords: ["aes/ecb", "ecb", "cipher.getinstance"]
+    rationale: >
+      ECB n’assure pas la confidentialité sémantique (patterns visibles).
+    steps:
+      - "Utiliser AES/GCM/NoPadding avec nonce/IV aléatoire."
+      - "Stocker le nonce avec le ciphertext."
+    actions: []
+
+  - id: FS-CODE-003
+    masvs: MASVS-CRYPTO
+    title: "Remplacer MD5 par SHA-256/512 ou Argon2/bcrypt pour mots de passe"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["CC-002"]
+      keywords: ["md5", "messageDigest", "digest(\"md5\")"]
+    rationale: >
+      MD5 est cassé (collisions) et inadapté à la protection.
+    steps:
+      - "Utiliser SHA-256/512 pour intégrité."
+      - "Pour mots de passe : Argon2/bcrypt/scrypt avec sel."
+    actions: []
+
+  - id: FS-CODE-004
+    masvs: MASVS-CRYPTO
+    title: "Remplacer SHA-1 par SHA-256/512"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["CC-003"]
+      keywords: ["sha-1", "sha1", "messageDigest(\"sha-1\")"]
+    rationale: >
+      SHA-1 est obsolète et vulnérable.
+    steps:
+      - "Migrer vers SHA-256/512."
+      - "Mettre à jour signatures/hachages côté serveur si nécessaire."
+    actions: []
+
+  - id: FS-CODE-005
+    masvs: MASVS-CRYPTO
+    title: "Utiliser SecureRandom pour tokens/keys/IV"
+    severity: MEDIUM
+    confidence: HIGH
+    match:
+      finding_ids: ["CC-004"]
+      keywords: ["java.util.random", "random()", "nextint", "nextbytes"]
+    rationale: >
+      java.util.Random est prédictible.
+    steps:
+      - "Remplacer par java.security.SecureRandom."
+      - "Éviter de réutiliser des seeds fixes."
+    actions: []
+
+  - id: FS-CODE-006
+    masvs: MASVS-CRYPTO
+    title: "Éviter SHA1PRNG (implémentation dépendante)"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["CC-005"]
+      keywords: ["sha1prng"]
+    rationale: >
+      SHA1PRNG peut être fragile selon la plateforme.
+    steps:
+      - "Utiliser new SecureRandom() par défaut."
+      - "Ne pas forcer le provider sans raison."
+    actions: []
+
+  - id: FS-CODE-007
+    masvs: MASVS-CRYPTO
+    title: "Spécifier explicitement mode/padding (Cipher.getInstance)"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["CC-006"]
+      keywords: ["cipher.getinstance(", "getinstance(\"aes\")", "nopadding"]
+    rationale: >
+      Une config implicite peut mener à des modes faibles.
+    steps:
+      - "Spécifier AES/GCM/NoPadding."
+      - "Vérifier la taille du nonce/IV et l’auth tag."
+    actions: []
+
+  - id: FS-CODE-008
+    masvs: MASVS-CODE
+    title: "Ne pas logguer de données sensibles (tokens, PII)"
+    severity: HIGH
+    confidence: MEDIUM
+    match:
+      finding_ids: ["NI-LEAK-010", "SH-LOG-001"]
+      keywords: ["log", "logger", "println", "token", "password", "apikey"]
+    rationale: >
+      Les logs sont souvent accessibles (adb, crash reports).
+    steps:
+      - "Supprimer/masquer logs en production."
+      - "Mettre un niveau de log réduit en release."
+    actions: []
+
+  - id: FS-CODE-009
+    masvs: MASVS-CODE
+    title: "Éviter WebView JavaScript bridging non sécurisé"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      finding_ids: ["AS-WEBVIEW-001"]
+      keywords: ["addjavascriptinterface", "webview", "javascript enabled"]
+    rationale: >
+      Les bridges WebView peuvent permettre l’exécution et l’accès aux APIs.
+    steps:
+      - "Désactiver JS si non requis."
+      - "Éviter addJavascriptInterface sur < API 17, restreindre les interfaces."
+    actions: []
+
+  - id: FS-CODE-010
+    masvs: MASVS-CODE
+    title: "Mise à jour dépendances / bibliothèques vulnérables"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      finding_ids: ["AS-DEP-001"]
+      keywords: ["outdated", "vulnerable", "dependency", "cve"]
+    rationale: >
+      Les libs obsolètes sont une cause fréquente de vulnérabilités.
+    steps:
+      - "Auditer les dépendances (Gradle, SCA)."
+      - "Mettre à jour vers des versions supportées."
+    actions: []
+
+  # =========================
+  # MASVS-STORAGE (STOR)
+  # =========================
+  - id: FS-STOR-001
+    masvs: MASVS-STORAGE
+    title: "Chiffrer les données sensibles au repos (EncryptedSharedPreferences/SQLCipher)"
+    severity: HIGH
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-STOR-001"]
+      keywords: ["sharedpreferences", "plaintext", "sqlite", "room", "db"]
+    rationale: >
+      Le stockage local en clair permet l’exfiltration sur device compromis.
+    steps:
+      - "Utiliser EncryptedSharedPreferences pour secrets légers."
+      - "Chiffrer DB (SQLCipher) si données sensibles."
+    actions: []
+
+  - id: FS-STOR-002
+    masvs: MASVS-STORAGE
+    title: "Éviter stockage sur external storage pour données sensibles"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["AS-STOR-002"]
+      keywords: ["external storage", "sdcard", "getexternalfilesdir"]
+    rationale: >
+      L’external storage est plus exposé à d’autres apps et à l’utilisateur.
+    steps:
+      - "Utiliser internal storage (MODE_PRIVATE)."
+      - "Chiffrer avant écriture si nécessaire."
+    actions: []
+
+  - id: FS-STOR-003
+    masvs: MASVS-STORAGE
+    title: "Nettoyer caches contenant PII/secrets"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-CACHE-001"]
+      keywords: ["cache", "tmp", "sensitive", "pii"]
+    rationale: >
+      Des caches peuvent contenir des tokens ou PII.
+    steps:
+      - "Limiter cache des réponses API."
+      - "Purger cache à logout / rotation token."
+    actions: []
+
+  - id: FS-STOR-004
+    masvs: MASVS-STORAGE
+    title: "Éviter hardcoded API keys/secrets (mettre côté serveur)"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["SH-001", "SH-002", "SH-003"]
+      keywords: ["apikey", "secret", "token", "bearer", "aws_secret_access_key"]
+    rationale: >
+      Les secrets embarqués sont récupérables par reverse engineering.
+    steps:
+      - "Déplacer secrets côté serveur (token exchange)."
+      - "Utiliser attestation/short-lived tokens si possible."
+    actions: []
+
+  - id: FS-STOR-005
+    masvs: MASVS-STORAGE
+    title: "Éviter de committer keystore / mots de passe dans le repo"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["FS-BUILD-001", "SH-KEYSTORE-001"]
+      keywords: ["keystore", "storepassword", "keypassword", "signingconfig"]
+    rationale: >
+      Les secrets de signature exposent la chaîne de confiance de l’app.
+    steps:
+      - "Mettre keystore et mdp dans secrets CI."
+      - "Ajouter keystore.jks / gradle.properties local dans .gitignore."
+    actions: []
+
+  # =========================
+  # MASVS-RESILIENCE / BUILD (BUILD/RES)
+  # =========================
+  - id: FS-BUILD-001
+    masvs: MASVS-RESILIENCE
+    title: "Isoler signingConfig et secrets de signature"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["SH-KEYSTORE-001"]
+      keywords: ["signingconfig", "keystore", "storepassword", "keypassword"]
+    rationale: >
+      Éviter de committer des secrets de keystore dans le repo.
+    steps:
+      - "Déplacer storePassword/keyPassword dans variables d’environnement ou secrets CI."
+      - "Ajouter keystore/gradle.properties local au .gitignore."
+      - "Préférer Play App Signing si possible."
+    actions: []
+
+  - id: FS-BUILD-002
+    masvs: MASVS-RESILIENCE
+    title: "Séparer les environnements (dev/stage/prod) via flavors"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-FLAVOR-001"]
+      keywords: ["flavor", "buildvariant", "staging", "prod", "baseurl"]
+    rationale: >
+      Réduit les erreurs de configuration (API dev en prod).
+    steps:
+      - "Définir productFlavors (dev/stage/prod)."
+      - "Ne jamais embarquer endpoints dev dans release."
+    actions: []
+
+  - id: FS-BUILD-003
+    masvs: MASVS-RESILIENCE
+    title: "Désactiver crash reports détaillés en production (PII)"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      finding_ids: ["NI-LEAK-020"]
+      keywords: ["crashlytics", "sentry", "breadcrumbs", "pii"]
+    rationale: >
+      Les crash reports peuvent exfiltrer PII/tokens si mal configurés.
+    steps:
+      - "Filtrer/masquer PII et tokens avant envoi."
+      - "Limiter breadcrumbs et payload."
+    actions: []
+
+  - id: FS-BUILD-004
+    masvs: MASVS-RESILIENCE
+    title: "Réduire les informations BuildConfig exposées"
+    severity: LOW
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-BCONFIG-001"]
+      keywords: ["buildconfig", "api_key", "secret", "debug"]
+    rationale: >
+      BuildConfig est facilement lisible après reverse.
+    steps:
+      - "Ne pas mettre de secrets dans BuildConfig."
+      - "Utiliser config serveur ou runtime provisioning."
+    actions: []
+
+  - id: FS-BUILD-005
+    masvs: MASVS-RESILIENCE
+    title: "Activer shrinkResources en release"
+    severity: LOW
+    confidence: HIGH
+    match:
+      finding_ids: ["AS-R8-001"]
+      keywords: ["shrinkresources", "shrink", "release"]
+    rationale: >
+      Réduit surface et artefacts embarqués.
+    steps:
+      - "Activer shrinkResources true sur release."
+      - "Vérifier impact sur ressources dynamiques."
+    actions: []
+
+  # =========================
+  # MASVS-AUTH / PRIVACY (AUTH/PRIV)
+  # =========================
+  - id: FS-AUTH-001
+    masvs: MASVS-AUTH
+    title: "Stocker tokens d’authentification de façon sûre"
+    severity: HIGH
+    confidence: MEDIUM
+    match:
+      finding_ids: ["AS-AUTH-001", "NI-LEAK-010"]
+      keywords: ["token", "bearer", "refresh token", "sharedpreferences"]
+    rationale: >
+      Les tokens volés permettent l’usurpation.
+    steps:
+      - "Stocker tokens dans Keystore/EncryptedSharedPreferences."
+      - "Réduire TTL, rotation, et révoquer au logout."
+    actions: []
+
+  - id: FS-AUTH-002
+    masvs: MASVS-AUTH
+    title: "Limiter sessions et ajouter détection d’anomalies côté serveur"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      finding_ids: ["NI-LEAK-010"]
+      keywords: ["session", "refresh", "rotation", "revoke"]
+    rationale: >
+      Le serveur reste la source de vérité pour la sécurité.
+    steps:
+      - "Ajouter rotation refresh token et invalidation."
+      - "Détecter multi-device / géoloc impossible / rate limit."
+    actions: []
+
+  - id: FS-PRIV-001
+    masvs: MASVS-PRIVACY
+    title: "Minimiser collecte PII et appliquer masquage"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      finding_ids: ["NI-LEAK-030"]
+      keywords: ["pii", "email", "phone", "address", "analytics"]
+    rationale: >
+      Réduit impact légal et fuite de données.
+    steps:
+      - "Collecter le minimum nécessaire."
+      - "Masquer PII dans logs, analytics, crash."
+    actions: []
+
+  - id: FS-PRIV-002
+    masvs: MASVS-PRIVACY
+    title: "Ne pas mettre de clés API de services tiers en dur"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      finding_ids: ["SH-001", "SH-002"]
+      keywords: ["google api key", "firebase", "maps", "stripe", "twilio"]
+    rationale: >
+      Les clés embarquées sont récupérables.
+    steps:
+      - "Restreindre clés côté provider (quotas, referrers, package signatures)."
+      - "Passer par backend proxy si possible."
+    actions: []
+
+  # =========================
+  # BONUS: règles “génériques” utiles (conseils)
+  # =========================
+  - id: FS-GEN-001
+    masvs: MASVS-CODE
+    title: "Éviter endpoints/dev flags accessibles en production"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      keywords: ["staging", "dev endpoint", "test api", "mock"]
+    rationale: >
+      Des endpoints de test en prod peuvent exposer des données ou bypass.
+    steps:
+      - "Désactiver flags de dev en release."
+      - "Supprimer menus cachés/debug."
+    actions: []
+
+  - id: FS-GEN-002
+    masvs: MASVS-NETWORK
+    title: "Configurer timeouts réseau et retry backoff"
+    severity: LOW
+    confidence: LOW
+    match:
+      keywords: ["timeout", "retry", "backoff", "okhttp"]
+    rationale: >
+      Améliore fiabilité et réduit comportements anormaux réseau.
+    steps:
+      - "Définir connect/read/write timeouts."
+      - "Limiter retries et utiliser backoff."
+    actions: []
+
+  # =========================
+  # "SCALE" add-on: lots of smaller targeted rules (20)
+  # =========================
+  - id: FS-PLAT-011
+    masvs: MASVS-PLATFORM
+    title: "Marquer services internes non exportés"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      keywords: ["service", "exported", "android.app.service"]
+    rationale: "Les services exportés peuvent être invoqués par des apps tierces."
+    steps: ["Mettre exported=false.", "Protéger par permission si nécessaire."]
+    actions: []
+
+  - id: FS-PLAT-012
+    masvs: MASVS-PLATFORM
+    title: "Protéger les activités sensibles par auth"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      keywords: ["activity", "sensitive", "admin", "settings"]
+    rationale: "Empêche accès direct via intents/deeplinks."
+    steps: ["Ajouter gate d’auth.", "Revalider session/token à l’entrée."]
+    actions: []
+
+  - id: FS-NET-011
+    masvs: MASVS-NETWORK
+    title: "Éviter tokens dans User-Agent / headers custom"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      keywords: ["user-agent", "x-api-key", "x-auth", "x-token"]
+    rationale: "Les headers custom peuvent fuiter via logs/proxies."
+    steps: ["Mettre tokens dans Authorization standard.", "Ne pas logguer ces headers."]
+    actions: []
+
+  - id: FS-NET-012
+    masvs: MASVS-NETWORK
+    title: "Configurer cookies Secure/HttpOnly/SameSite côté serveur"
+    severity: LOW
+    confidence: LOW
+    match:
+      keywords: ["set-cookie", "secure", "httponly", "samesite"]
+    rationale: "Durcit session cookies (si utilisé)."
+    steps: ["Activer Secure/HttpOnly.", "Définir SameSite adapté."]
+    actions: []
+
+  - id: FS-CODE-011
+    masvs: MASVS-CRYPTO
+    title: "Utiliser KeyStore pour générer/stocker les clés"
+    severity: HIGH
+    confidence: MEDIUM
+    match:
+      keywords: ["keystore", "keygenparameterSpec", "androidkeystore"]
+    rationale: "Réduit risque d’exfiltration de clés."
+    steps: ["Générer clés dans AndroidKeyStore.", "Limiter usages (encrypt/decrypt/sign)."]
+    actions: []
+
+  - id: FS-CODE-012
+    masvs: MASVS-CRYPTO
+    title: "Ajouter authentification (AEAD) aux données chiffrées"
+    severity: MEDIUM
+    confidence: MEDIUM
+    match:
+      keywords: ["cbc", "hmac", "integrity", "gcm", "aead"]
+    rationale: "Sans intégrité, CBC est malléable."
+    steps: ["Préférer AES-GCM.", "Sinon CBC + HMAC (Encrypt-then-MAC)."]
+    actions: []
+
+  - id: FS-STOR-006
+    masvs: MASVS-STORAGE
+    title: "Ne pas stocker mots de passe en clair"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      keywords: ["password", "pwd", "pass=", "credentials"]
+    rationale: "Exposition directe en cas de dump."
+    steps: ["Ne jamais stocker le mot de passe.", "Utiliser tokens à durée courte."]
+    actions: []
+
+  - id: FS-STOR-007
+    masvs: MASVS-STORAGE
+    title: "Nettoyer fichiers temporaires après usage"
+    severity: LOW
+    confidence: MEDIUM
+    match:
+      keywords: ["tmp", "temp", "cache file", "download"]
+    rationale: "Réduit traces locales."
+    steps: ["Purger tmp après traitement.", "Mettre permissions MODE_PRIVATE."]
+    actions: []
+
+  - id: FS-BUILD-006
+    masvs: MASVS-RESILIENCE
+    title: "Activer verification de signature côté serveur (attestation si possible)"
+    severity: LOW
+    confidence: LOW
+    match:
+      keywords: ["attestation", "play integrity", "safetynet"]
+    rationale: "Ajoute signal anti-tamper (soft)."
+    steps: ["Activer Play Integrity.", "Refuser devices compromis selon politique."]
+    actions: []
+
+  - id: FS-BUILD-007
+    masvs: MASVS-RESILIENCE
+    title: "Retirer endpoints de debug / admin du build release"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      keywords: ["admin endpoint", "debug endpoint", "swagger", "actuator"]
+    rationale: "Surface d’attaque inutile en prod."
+    steps: ["Build flavors.", "Gating auth + ip allowlist si requis."]
+    actions: []
+
+  - id: FS-PRIV-003
+    masvs: MASVS-PRIVACY
+    title: "Demander permissions au runtime seulement au moment utile"
+    severity: LOW
+    confidence: MEDIUM
+    match:
+      keywords: ["runtime permission", "requestpermissions", "privacy"]
+    rationale: "Minimise friction et collecte."
+    steps: ["Demander au besoin.", "Expliquer l’usage à l’utilisateur."]
+    actions: []
+
+  - id: FS-AUTH-003
+    masvs: MASVS-AUTH
+    title: "Activer biométrie forte pour actions sensibles"
+    severity: LOW
+    confidence: LOW
+    match:
+      keywords: ["biometric", "biometricprompt", "strong"]
+    rationale: "Réduit risque de réutilisation session."
+    steps: ["Utiliser BiometricPrompt.", "Exiger device credential si nécessaire."]
+    actions: []
+
+  - id: FS-CODE-013
+    masvs: MASVS-CODE
+    title: "Éviter désérialisation non sûre"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      keywords: ["gson", "jackson", "deserialize", "kryo"]
+    rationale: "Certaines désérialisations peuvent être abusées."
+    steps: ["Valider schémas.", "Limiter types et champs acceptés."]
+    actions: []
+
+  - id: FS-NET-013
+    masvs: MASVS-NETWORK
+    title: "Activer OCSP stapling côté serveur si applicable"
+    severity: LOW
+    confidence: LOW
+    match:
+      keywords: ["ocsp", "revocation", "stapling"]
+    rationale: "Améliore gestion révocation TLS."
+    steps: ["Configurer serveur.", "Tester compatibilité clients."]
+    actions: []
+
+  - id: FS-NET-014
+    masvs: MASVS-NETWORK
+    title: "Limiter redirections vers domaines externes"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      keywords: ["redirect", "location:", "open redirect"]
+    rationale: "Réduit phishing/exfil."
+    steps: ["Autoriser liste blanche.", "Valider domaines/paths."]
+    actions: []
+
+  - id: FS-PLAT-013
+    masvs: MASVS-PLATFORM
+    title: "Vérifier android:usesCleartextTraffic=false"
+    severity: HIGH
+    confidence: HIGH
+    match:
+      keywords: ["usescleartexttraffic", "cleartexttraffic"]
+    rationale: "Empêche HTTP cleartext par défaut."
+    steps: ["Mettre usesCleartextTraffic=false.", "Utiliser networkSecurityConfig si exceptions."]
+    actions: []
+
+  - id: FS-PLAT-014
+    masvs: MASVS-PLATFORM
+    title: "Limiter tâches récentes (FLAG_SECURE pour écrans sensibles)"
+    severity: LOW
+    confidence: LOW
+    match:
+      keywords: ["flag_secure", "screenshot", "recents"]
+    rationale: "Réduit fuite visuelle (screenshots/recents)."
+    steps: ["Activer FLAG_SECURE sur écrans sensibles.", "Tester UX."]
+    actions: []
+
+  - id: FS-STOR-008
+    masvs: MASVS-STORAGE
+    title: "Éviter stockage de données sensibles dans WebView localStorage"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      keywords: ["webview", "localstorage", "sessionstorage", "cookies"]
+    rationale: "Stockage web peut fuiter via XSS ou extraction locale."
+    steps: ["Éviter secrets côté WebView.", "Purger cookies/local storage à logout."]
+    actions: []
+
+  - id: FS-CODE-014
+    masvs: MASVS-CRYPTO
+    title: "Utiliser PBKDF2/Argon2 pour dérivation de clés"
+    severity: MEDIUM
+    confidence: LOW
+    match:
+      keywords: ["pbkdf2", "argon2", "scrypt", "pbe"]
+    rationale: "Dérivation faible -> brute force."
+    steps: ["Utiliser PBKDF2 avec itérations suffisantes ou Argon2.", "Sel unique par secret."]
+    actions: []
+
+  - id: FS-BUILD-008
+    masvs: MASVS-RESILIENCE
+    title: "S’assurer que minSdk/targetSdk sont alignés avec exigences sécurité"
+    severity: LOW
+    confidence: LOW
+    match:
+      keywords: ["minsdk", "targetsdk", "apis"]
+    rationale: "Certaines protections sont liées au niveau API."
+    steps: ["Mettre targetSdk à jour.", "Tester compatibilité."]
+    actions: []

@@ -1,0 +1,155 @@
+services:
+  apk_scanner:
+    build:
+      context: ./APKScanner
+    container_name: apk_scanner
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./APKScanner/data:/app/data
+    environment:
+      - APKTOOL_MODE=auto
+      - APKTOOL_TIMEOUT=180
+      - DATA_DIR=/app/data
+      - SQLITE_PATH=/app/data/apkscanner.db
+    restart: unless-stopped
+
+  secret_hunter:
+    build:
+      context: ./SecretHunter
+    container_name: secret_hunter
+    ports:
+      - "8002:8000"
+    environment:
+      - DATA_DIR=/app/data
+      - SQLITE_PATH=/app/data/secrethunter.db
+      - WORKDIR_CLEANUP=true
+      - GITLEAKS_MAX_MB=10
+      - ENABLE_ENGINES=regex,gitleaks,yara
+    volumes:
+      - ./SecretHunter/data:/app/data
+      - ./SecretHunter/rules:/app/rules
+      - ./SecretHunter/config:/app/config
+    restart: unless-stopped
+
+  crypto_check:
+    build:
+      context: ./CryptoCheck
+    container_name: crypto_check
+    ports:
+      - "8003:8000"
+    environment:
+      - APKTOOL_BIN=apktool
+      - SQLITE_PATH=/app/data/cryptocheck.db
+      - RULES_PATH=/app/config/crypto_rules.json
+      - DATA_DIR=/app/data
+    volumes:
+      - ./CryptoCheck/data:/app/data
+      - ./CryptoCheck/config:/app/config
+    restart: unless-stopped
+
+  mitmproxy:
+    image: mitmproxy/mitmproxy:latest
+    container_name: mitmproxy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./NetworkInspector/data:/app/data
+      - ./NetworkInspector/mitm_addons:/app/mitm_addons
+    environment:
+      - FLOWS_FILE=/app/data/flows.jsonl
+    command: >
+      mitmdump
+      -s /app/mitm_addons/json_logger.py
+      --listen-host 0.0.0.0
+      --listen-port 8080
+    restart: unless-stopped
+
+  network_inspector_api:
+    build:
+      context: ./NetworkInspector
+    container_name: network_inspector_api
+    ports:
+      - "8004:8000"
+    environment:
+      - DATA_DIR=/app/data
+      - SQLITE_PATH=/app/data/networkinspector.db
+
+      # flows source (mitmproxy output)
+      - FLOWS_FILE=/app/data/flows.jsonl
+
+      # ✅ Option A snapshot (avoids read/write conflicts)
+      - SNAPSHOT_DIR=/app/data/snapshots
+      - SNAPSHOT_KEEP=10
+
+      # your rule files
+      - HEADER_RULES=/app/config/header_rules.json
+      - TLS_RULES=/app/config/tls_rules.json
+      - LEAK_PATTERNS=/app/config/leak_patterns.json
+    volumes:
+      - ./NetworkInspector/data:/app/data
+      - ./NetworkInspector/config:/app/config
+    depends_on:
+      - mitmproxy
+    restart: unless-stopped
+  report_gen:
+    build:
+      context: ./ReportGen
+    container_name: report_gen
+    ports:
+      - "8005:8000"
+    environment:
+      - DATA_DIR=/app/data
+      - REPORTS_DIR=/app/data/reports
+      - REPORT_TTL_HOURS=168
+      - CLEANUP_INTERVAL_MIN=60
+      - FETCH_TIMEOUT_MS=15000
+      # URLs internes docker (par défaut dans services.js, mais tu peux les fixer)
+      - APK_SCANNER_URL=http://apk_scanner:8000
+      - SECRET_HUNTER_URL=http://secret_hunter:8000
+      - CRYPTO_CHECK_URL=http://crypto_check:8000
+      - NETWORK_INSPECTOR_URL=http://network_inspector_api:8000
+      # protège cleanup (mets un vrai token)
+      - ADMIN_TOKEN=change-me-strong
+    volumes:
+      - ./ReportGen/data:/app/data
+    depends_on:
+      - apk_scanner
+      - secret_hunter
+      - crypto_check
+      - network_inspector_api
+    restart: unless-stopped
+    
+  fix_suggest:
+    build:
+      context: ./FixSuggest
+    container_name: fix_suggest
+    ports:
+      - "8006:8000"
+    environment:
+      - DATA_DIR=/app/data
+      - SQLITE_PATH=/app/data/fixsuggest.db
+      - RULES_PATH=/app/config/masvs_fixes.yaml
+    volumes:
+      - ./FixSuggest/data:/app/data
+      - ./FixSuggest/config:/app/config
+    restart: unless-stopped
+ 
+  ci_connector:
+    build:
+      context: ./CIConnector
+    container_name: ci_connector
+    ports:
+      - "8007:8000"
+    environment:
+      - PLUGINS_DIR=/app/config/plugins
+      - DEFAULT_PLUGIN=default
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DATA_DIR=/app/data
+    volumes:
+      - ./:/workspace
+      - ./CIConnector/config:/app/config
+      - ./CIConnector/data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+

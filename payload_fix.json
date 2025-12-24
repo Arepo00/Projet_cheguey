@@ -1,0 +1,13 @@
+{
+  "parent_scan_id": 0,
+  "package": "com.test",
+  "enable_patches": true,
+  "max_suggestions": 10,
+  "findings_list": [
+    { "id": "NI-NET-001", "title": "HTTP cleartext" }
+  ],
+  "artifacts": {
+    "AndroidManifest.xml": "<manifest package=\"com.test\" xmlns:android=\"http://schemas.android.com/apk/res/android\"><application><activity android:name=\".MainActivity\" android:exported=\"true\" /></application></manifest>",
+    "build.gradle": "android { buildTypes { release { minifyEnabled false } } }"
+  }
+}

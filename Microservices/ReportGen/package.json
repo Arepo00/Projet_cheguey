@@ -1,0 +1,14 @@
+{
+  "name": "reportgen",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "uuid": "^9.0.1",
+    "puppeteer-core": "^23.0.0"
+  }
+}

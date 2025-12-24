@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="29" android:compileSdkVersionCodename="10" package="com.app.damnvulnerablebank" platformBuildVersionCode="29" platformBuildVersionName="10">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <application android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:hardwareAccelerated="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:largeHeap="false" android:networkSecurityConfig="@xml/network_security_config" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme" android:usesCleartextTraffic="true">
+        <activity android:name="com.app.damnvulnerablebank.Myprofile"/>
+        <activity android:name="com.app.damnvulnerablebank.CurrencyRates">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="xe.com" android:scheme="http"/>
+                <data android:host="xe.com" android:scheme="https"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.app.damnvulnerablebank.ResetPassword"/>
+        <activity android:name="com.app.damnvulnerablebank.ViewBeneficiary"/>
+        <activity android:name="com.app.damnvulnerablebank.ApproveBeneficiary"/>
+        <activity android:name="com.app.damnvulnerablebank.PendingBeneficiary"/>
+        <activity android:name="com.app.damnvulnerablebank.AddBeneficiary"/>
+        <activity android:exported="true" android:name="com.app.damnvulnerablebank.SendMoney">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".ViewBeneficiaryAdmin"/>
+        </activity>
+        <activity android:name="com.app.damnvulnerablebank.ViewBeneficiaryAdmin"/>
+        <activity android:name="com.app.damnvulnerablebank.GetTransactions"/>
+        <activity android:exported="true" android:name="com.app.damnvulnerablebank.ViewBalance"/>
+        <activity android:name="com.app.damnvulnerablebank.Dashboard"/>
+        <activity android:name="com.app.damnvulnerablebank.RegisterBank"/>
+        <activity android:name="com.app.damnvulnerablebank.BankLogin"/>
+        <activity android:name="com.app.damnvulnerablebank.MainActivity"/>
+        <activity android:name="com.app.damnvulnerablebank.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+        <activity android:exported="true" android:name="androidx.biometric.DeviceCredentialHandlerActivity" android:theme="@style/DeviceCredentialHandlerTheme"/>
+        <activity android:excludeFromRecents="true" android:exported="true" android:launchMode="singleTask" android:name="com.google.firebase.auth.internal.FederatedSignInActivity" android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <service android:directBootAware="true" android:exported="false" android:name="com.google.firebase.components.ComponentDiscoveryService">
+            <meta-data android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar" android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <activity android:exported="false" android:name="com.google.android.gms.common.api.GoogleApiActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <provider android:authorities="com.app.damnvulnerablebank.firebaseinitprovider" android:exported="false" android:initOrder="100" android:name="com.google.firebase.provider.FirebaseInitProvider"/>
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+    </application>
+</manifest>

@@ -1,0 +1,1094 @@
+{
+  "rules": [
+    {
+      "id": "CC-001",
+      "title": "AES en mode ECB détecté",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "AES/ECB",
+      "recommendation": "Éviter ECB. Utiliser AES-GCM (recommandé) ou AES-CBC avec IV aléatoire + HMAC. Ex: AES/GCM/NoPadding."
+    },
+    {
+      "id": "CC-002",
+      "title": "MD5 détecté (hash faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-328"],
+      "type": "STRING",
+      "pattern": "MD5",
+      "recommendation": "Remplacer MD5 par SHA-256/512. Pour mots de passe: bcrypt/scrypt/Argon2."
+    },
+    {
+      "id": "CC-003",
+      "title": "SHA-1 détecté (hash faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-328"],
+      "type": "STRING",
+      "pattern": "SHA-1",
+      "recommendation": "Remplacer SHA-1 par SHA-256/512."
+    },
+    {
+      "id": "CC-004",
+      "title": "Usage de java.util.Random (PRNG faible) détecté",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/util/Random;-><init>\\(",
+      "recommendation": "Pour tokens/keys/IV: utiliser java.security.SecureRandom."
+    },
+    {
+      "id": "CC-005",
+      "title": "SecureRandom 'SHA1PRNG' détecté (impl dépendante)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "STRING",
+      "pattern": "SHA1PRNG",
+      "recommendation": "Éviter 'SHA1PRNG'. Utiliser SecureRandom() par défaut."
+    },
+    {
+      "id": "CC-006",
+      "title": "Cipher.getInstance sans mode/padding explicite (risque de configuration faible)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljavax/crypto/Cipher;->getInstance\\(",
+      "recommendation": "Spécifier un mode sûr (AES/GCM/NoPadding) et vérifier IV/nonce."
+    },
+
+    {
+      "id": "CC-007",
+      "title": "DES détecté (algorithme obsolète)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "DES",
+      "recommendation": "Remplacer DES par AES-GCM (ou ChaCha20-Poly1305)."
+    },
+    {
+      "id": "CC-008",
+      "title": "3DES / DESede détecté (algorithme obsolète)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "DESede",
+      "recommendation": "Remplacer 3DES par AES-GCM."
+    },
+    {
+      "id": "CC-009",
+      "title": "RC4 détecté (cipher cassé)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "RC4",
+      "recommendation": "Remplacer RC4 par AES-GCM ou ChaCha20-Poly1305."
+    },
+    {
+      "id": "CC-010",
+      "title": "Blowfish détecté (à éviter pour nouveaux développements)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "Blowfish",
+      "recommendation": "Préférer AES-GCM ou ChaCha20-Poly1305."
+    },
+    {
+      "id": "CC-011",
+      "title": "AES/CBC détecté (nécessite IV aléatoire + authentification)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-329", "CWE-327"],
+      "type": "STRING",
+      "pattern": "AES/CBC",
+      "recommendation": "Si CBC est utilisé: IV aléatoire unique + HMAC. Sinon utiliser AES-GCM."
+    },
+    {
+      "id": "CC-012",
+      "title": "AES/CTR détecté (nécessite nonce unique + authentification)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-329", "CWE-327"],
+      "type": "STRING",
+      "pattern": "AES/CTR",
+      "recommendation": "CTR doit avoir un nonce unique + MAC. Préférer AES-GCM."
+    },
+    {
+      "id": "CC-013",
+      "title": "AES/CFB détecté (nécessite IV aléatoire + authentification)",
+      "severity": "LOW",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "AES/CFB",
+      "recommendation": "CFB: IV aléatoire + MAC. Préférer AES-GCM."
+    },
+    {
+      "id": "CC-014",
+      "title": "AES/OFB détecté (nécessite IV aléatoire + authentification)",
+      "severity": "LOW",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "AES/OFB",
+      "recommendation": "OFB: IV aléatoire + MAC. Préférer AES-GCM."
+    },
+    {
+      "id": "CC-015",
+      "title": "ChaCha20 sans Poly1305 détecté (risque absence d'authentification)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "ChaCha20",
+      "recommendation": "Utiliser ChaCha20-Poly1305 (AEAD) plutôt que ChaCha20 seul."
+    },
+    {
+      "id": "CC-016",
+      "title": "PBEWithMD5AndDES détecté (PBE faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327", "CWE-916"],
+      "type": "STRING",
+      "pattern": "PBEWithMD5AndDES",
+      "recommendation": "Remplacer par PBKDF2-HMAC-SHA256 + AES-GCM."
+    },
+    {
+      "id": "CC-017",
+      "title": "PBEWithSHA1AndDESede détecté (PBE faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327", "CWE-916"],
+      "type": "STRING",
+      "pattern": "PBEWithSHA1AndDESede",
+      "recommendation": "Remplacer par PBKDF2-HMAC-SHA256 + AES-GCM."
+    },
+    {
+      "id": "CC-018",
+      "title": "RSA/ECB détecté (transformation ambiguë)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "RSA/ECB",
+      "recommendation": "Préciser padding sûr: RSA/ECB/OAEPWithSHA-256AndMGF1Padding (recommandé)."
+    },
+    {
+      "id": "CC-019",
+      "title": "ECB générique détecté (mode dangereux)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "/ECB/",
+      "recommendation": "ECB fuit la structure des données. Utiliser un mode AEAD (GCM/ChaCha20-Poly1305)."
+    },
+    {
+      "id": "CC-020",
+      "title": "NoPadding détecté (risque d'erreurs et crypto faible selon contexte)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "NoPadding",
+      "recommendation": "Utiliser un schéma sûr (AEAD). Si padding nécessaire: PKCS5/PKCS7 selon API."
+    },
+
+    {
+      "id": "CC-021",
+      "title": "AES/GCM sans NoPadding explicite (vérifier transformation)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "AES/GCM",
+      "recommendation": "La forme recommandée: AES/GCM/NoPadding, nonce unique 12 bytes, tag >= 128 bits."
+    },
+    {
+      "id": "CC-022",
+      "title": "GCMParameterSpec détecté (vérifier taille du tag/nonce)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "GCMParameterSpec",
+      "recommendation": "Utiliser un tag 128 bits et un nonce unique (12 bytes recommandé)."
+    },
+    {
+      "id": "CC-023",
+      "title": "IvParameterSpec utilisé (vérifier IV non constant)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "IvParameterSpec",
+      "recommendation": "IV doit être aléatoire et unique; ne jamais utiliser un IV constant."
+    },
+    {
+      "id": "CC-024",
+      "title": "IV constant suspect: 0000000000000000",
+      "severity": "HIGH",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "0000000000000000",
+      "recommendation": "Interdit pour IV/nonce. Générer via SecureRandom (unique par chiffrement)."
+    },
+    {
+      "id": "CC-025",
+      "title": "IV constant suspect: 1111111111111111",
+      "severity": "HIGH",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "1111111111111111",
+      "recommendation": "Interdit pour IV/nonce. Générer via SecureRandom."
+    },
+    {
+      "id": "CC-026",
+      "title": "IV constant suspect: aaaaaaaaaaaaaaaa",
+      "severity": "HIGH",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "aaaaaaaaaaaaaaaa",
+      "recommendation": "Interdit pour IV/nonce. Générer via SecureRandom."
+    },
+    {
+      "id": "CC-027",
+      "title": "IV constant suspect: ffffffffffffffff",
+      "severity": "HIGH",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "ffffffffffffffff",
+      "recommendation": "Interdit pour IV/nonce. Générer via SecureRandom."
+    },
+    {
+      "id": "CC-028",
+      "title": "CBC avec PKCS5Padding (vérifier MAC/AEAD)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "AES/CBC/PKCS5Padding",
+      "recommendation": "CBC doit être authentifié (Encrypt-then-MAC) ou remplacer par AES-GCM."
+    },
+    {
+      "id": "CC-029",
+      "title": "CBC avec PKCS7Padding (vérifier MAC/AEAD)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "PKCS7Padding",
+      "recommendation": "CBC doit être authentifié (EtM) ou remplacer par AES-GCM."
+    },
+    {
+      "id": "CC-030",
+      "title": "Cipher.init détecté (vérifier IV/nonce et mode)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljavax/crypto/Cipher;->init\\(",
+      "recommendation": "S'assurer d'un IV/nonce unique et d'un mode sécurisé (AEAD)."
+    },
+    {
+      "id": "CC-031",
+      "title": "SecretKeySpec détecté (clé potentiellement hardcodée)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-321"],
+      "type": "STRING",
+      "pattern": "SecretKeySpec",
+      "recommendation": "Éviter les clés en dur. Utiliser Android Keystore ou dérivation via KDF avec sel."
+    },
+    {
+      "id": "CC-032",
+      "title": "KeyGenerator sans SecureRandom explicite (vérifier source d'aléa)",
+      "severity": "LOW",
+      "cwe": ["CWE-338"],
+      "type": "STRING",
+      "pattern": "KeyGenerator",
+      "recommendation": "S'assurer que les clés sont générées avec SecureRandom et tailles adéquates (>=128 bits)."
+    },
+    {
+      "id": "CC-033",
+      "title": "KeyPairGenerator détecté (vérifier taille clé)",
+      "severity": "LOW",
+      "cwe": ["CWE-326"],
+      "type": "STRING",
+      "pattern": "KeyPairGenerator",
+      "recommendation": "RSA >= 2048 (idéal 3072), EC courbes modernes (P-256/Ed25519 selon cas)."
+    },
+    {
+      "id": "CC-034",
+      "title": "KeyPairGeneratorSpec détecté (ancienne API)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "KeyPairGeneratorSpec",
+      "recommendation": "Préférer KeyGenParameterSpec (Android M+). Vérifier tailles et usages."
+    },
+    {
+      "id": "CC-035",
+      "title": "KeyGenParameterSpec détecté (vérifier paramétrage)",
+      "severity": "INFO",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "KeyGenParameterSpec",
+      "recommendation": "Vérifier block modes (GCM), paddings (OAEP), tailles et authentification utilisateur si nécessaire."
+    },
+    {
+      "id": "CC-036",
+      "title": "RSA/ECB/PKCS1Padding détecté (préférer OAEP)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-780", "CWE-327"],
+      "type": "STRING",
+      "pattern": "RSA/ECB/PKCS1Padding",
+      "recommendation": "Remplacer par OAEP: RSA/ECB/OAEPWithSHA-256AndMGF1Padding."
+    },
+    {
+      "id": "CC-037",
+      "title": "OAEPWithSHA1AndMGF1Padding détecté (préférer SHA-256)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "OAEPWithSHA1AndMGF1Padding",
+      "recommendation": "Préférer OAEP SHA-256: OAEPWithSHA-256AndMGF1Padding."
+    },
+    {
+      "id": "CC-038",
+      "title": "RSASSA-PSS détecté (vérifier hash moderne)",
+      "severity": "INFO",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "RSASSA-PSS",
+      "recommendation": "Utiliser SHA-256/512 avec PSS, éviter SHA-1."
+    },
+    {
+      "id": "CC-039",
+      "title": "Signature SHA1withRSA détectée (signature faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "SHA1withRSA",
+      "recommendation": "Utiliser SHA256withRSA ou mieux: SHA256withRSA/PSS."
+    },
+    {
+      "id": "CC-040",
+      "title": "Signature MD5withRSA détectée (signature faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "MD5withRSA",
+      "recommendation": "Utiliser SHA256withRSA (ou RSA-PSS) / ECDSA avec SHA-256."
+    },
+
+    {
+      "id": "CC-041",
+      "title": "MessageDigest.getInstance détecté (vérifier algo)",
+      "severity": "LOW",
+      "cwe": ["CWE-328"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/security/MessageDigest;->getInstance\\(",
+      "recommendation": "Éviter MD2/MD5/SHA-1. Utiliser SHA-256/512."
+    },
+    {
+      "id": "CC-042",
+      "title": "MD2 détecté (hash obsolète)",
+      "severity": "HIGH",
+      "cwe": ["CWE-328"],
+      "type": "STRING",
+      "pattern": "MD2",
+      "recommendation": "Remplacer par SHA-256/512."
+    },
+    {
+      "id": "CC-043",
+      "title": "HmacMD5 détecté (MAC faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "HmacMD5",
+      "recommendation": "Remplacer par HmacSHA256/512."
+    },
+    {
+      "id": "CC-044",
+      "title": "HmacSHA1 détecté (MAC à éviter)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "HmacSHA1",
+      "recommendation": "Remplacer par HmacSHA256/512."
+    },
+    {
+      "id": "CC-045",
+      "title": "HmacSHA256 détecté (OK mais vérifier gestion clé)",
+      "severity": "INFO",
+      "cwe": ["CWE-321"],
+      "type": "STRING",
+      "pattern": "HmacSHA256",
+      "recommendation": "Vérifier clés non hardcodées, rotation et stockage Keystore si possible."
+    },
+    {
+      "id": "CC-046",
+      "title": "HmacSHA512 détecté (OK mais vérifier gestion clé)",
+      "severity": "INFO",
+      "cwe": ["CWE-321"],
+      "type": "STRING",
+      "pattern": "HmacSHA512",
+      "recommendation": "Vérifier clés non hardcodées, rotation et stockage Keystore."
+    },
+    {
+      "id": "CC-047",
+      "title": "SHA-224 détecté (hash moins standard)",
+      "severity": "LOW",
+      "cwe": ["CWE-328"],
+      "type": "STRING",
+      "pattern": "SHA-224",
+      "recommendation": "Préférer SHA-256/512."
+    },
+    {
+      "id": "CC-048",
+      "title": "SHA-256 détecté (OK mais vérifier usage mot de passe)",
+      "severity": "INFO",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "SHA-256",
+      "recommendation": "Pour mots de passe: ne pas utiliser SHA-256 brut, préférer bcrypt/scrypt/Argon2."
+    },
+    {
+      "id": "CC-049",
+      "title": "SHA-512 détecté (OK mais vérifier usage mot de passe)",
+      "severity": "INFO",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "SHA-512",
+      "recommendation": "Pour mots de passe: ne pas utiliser SHA-512 brut, préférer bcrypt/scrypt/Argon2."
+    },
+    {
+      "id": "CC-050",
+      "title": "Base64 utilisé autour de crypto (risque de fausse 'encryption')",
+      "severity": "LOW",
+      "cwe": ["CWE-311"],
+      "type": "STRING",
+      "pattern": "Base64",
+      "recommendation": "Base64 n'est pas un chiffrement. Assurer chiffrement réel (AES-GCM) si nécessaire."
+    },
+
+    {
+      "id": "CC-051",
+      "title": "SecretKeyFactory.getInstance détecté (vérifier KDF)",
+      "severity": "LOW",
+      "cwe": ["CWE-916"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljavax/crypto/SecretKeyFactory;->getInstance\\(",
+      "recommendation": "Pour mots de passe: utiliser PBKDF2-HMAC-SHA256/512 (iterations élevées) ou Argon2."
+    },
+    {
+      "id": "CC-052",
+      "title": "PBKDF2WithHmacSHA1 détecté (préférer SHA-256/512)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "PBKDF2WithHmacSHA1",
+      "recommendation": "Préférer PBKDF2WithHmacSHA256/512."
+    },
+    {
+      "id": "CC-053",
+      "title": "PBKDF2WithHmacSHA256 détecté (vérifier itérations)",
+      "severity": "INFO",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "PBKDF2WithHmacSHA256",
+      "recommendation": "Vérifier itérations suffisantes (ex: 100k+ selon device) + sel aléatoire unique."
+    },
+    {
+      "id": "CC-054",
+      "title": "PBKDF2WithHmacSHA512 détecté (vérifier itérations)",
+      "severity": "INFO",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "PBKDF2WithHmacSHA512",
+      "recommendation": "Vérifier itérations suffisantes + sel aléatoire unique."
+    },
+    {
+      "id": "CC-055",
+      "title": "PBEKeySpec utilisé (vérifier itérations/sel)",
+      "severity": "LOW",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "PBEKeySpec",
+      "recommendation": "Sel unique + itérations élevées + longueur clé >= 256 (selon algo)."
+    },
+    {
+      "id": "CC-056",
+      "title": "salt constant suspect: \"salt\"",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-759", "CWE-916"],
+      "type": "STRING",
+      "pattern": "salt",
+      "recommendation": "Ne pas hardcoder le sel. Générer un sel aléatoire et le stocker avec le hash."
+    },
+    {
+      "id": "CC-057",
+      "title": "itérations faibles suspectes (1000)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "1000",
+      "recommendation": "Augmenter itérations KDF (ex: 100k+). Éviter valeurs faibles."
+    },
+    {
+      "id": "CC-058",
+      "title": "itérations faibles suspectes (5000)",
+      "severity": "LOW",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "5000",
+      "recommendation": "Augmenter itérations KDF (souvent insuffisant)."
+    },
+    {
+      "id": "CC-059",
+      "title": "itérations faibles suspectes (10000)",
+      "severity": "LOW",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "10000",
+      "recommendation": "Vérifier si suffisant. Généralement viser 100k+ (selon device)."
+    },
+    {
+      "id": "CC-060",
+      "title": "BCrypt détecté (OK pour mots de passe)",
+      "severity": "INFO",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "bcrypt",
+      "recommendation": "Bon choix. Vérifier cost factor suffisant et sel unique."
+    },
+
+    {
+      "id": "CC-061",
+      "title": "scrypt détecté (OK pour mots de passe)",
+      "severity": "INFO",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "scrypt",
+      "recommendation": "Bon choix. Vérifier paramètres N/r/p adaptés."
+    },
+    {
+      "id": "CC-062",
+      "title": "Argon2 détecté (OK pour mots de passe)",
+      "severity": "INFO",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "argon2",
+      "recommendation": "Bon choix. Vérifier mémoire/itérations adaptées."
+    },
+    {
+      "id": "CC-063",
+      "title": "SecureRandom instancié (OK) mais vérifier usage",
+      "severity": "INFO",
+      "cwe": ["CWE-338"],
+      "type": "STRING",
+      "pattern": "SecureRandom",
+      "recommendation": "S'assurer qu'il est utilisé pour IV/nonce/keys et pas remplacé par Random."
+    },
+    {
+      "id": "CC-064",
+      "title": "SecureRandom.setSeed détecté (risque de prédictibilité)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/security/SecureRandom;->setSeed\\(",
+      "recommendation": "Éviter setSeed avec données prédictibles (temps, constantes)."
+    },
+    {
+      "id": "CC-065",
+      "title": "System.currentTimeMillis utilisé (risque seed prédictible)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "STRING",
+      "pattern": "currentTimeMillis",
+      "recommendation": "Ne pas utiliser le temps comme seed pour génération de secrets."
+    },
+    {
+      "id": "CC-066",
+      "title": "Math.random utilisé (PRNG faible)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/lang/Math;->random\\(",
+      "recommendation": "Remplacer par SecureRandom pour tokens/identifiants secrets."
+    },
+    {
+      "id": "CC-067",
+      "title": "java.util.Random.nextInt utilisé (PRNG faible)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/util/Random;->nextInt\\(",
+      "recommendation": "Remplacer par SecureRandom."
+    },
+    {
+      "id": "CC-068",
+      "title": "java.util.Random.nextBytes utilisé (PRNG faible)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/util/Random;->nextBytes\\(",
+      "recommendation": "Remplacer par SecureRandom pour bytes secrets."
+    },
+    {
+      "id": "CC-069",
+      "title": "UUID.randomUUID utilisé (pas pour secrets)",
+      "severity": "LOW",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/util/UUID;->randomUUID\\(",
+      "recommendation": "UUID n'est pas un token cryptographique. Pour secrets: SecureRandom + encodage."
+    },
+    {
+      "id": "CC-070",
+      "title": "RandomAccessFile utilisé pour clés (vérifier stockage)",
+      "severity": "LOW",
+      "cwe": ["CWE-922"],
+      "type": "STRING",
+      "pattern": "RandomAccessFile",
+      "recommendation": "Éviter stockage de clés en clair. Préférer Android Keystore."
+    },
+
+    {
+      "id": "CC-071",
+      "title": "AndroidKeyStore utilisé (bon signal)",
+      "severity": "INFO",
+      "cwe": ["CWE-321"],
+      "type": "STRING",
+      "pattern": "AndroidKeyStore",
+      "recommendation": "Bon usage. Vérifier paramètres (GCM, OAEP, authentification utilisateur, etc.)."
+    },
+    {
+      "id": "CC-072",
+      "title": "KeyStore.getInstance(\"AndroidKeyStore\") détecté",
+      "severity": "INFO",
+      "cwe": ["CWE-321"],
+      "type": "STRING",
+      "pattern": "KeyStore",
+      "recommendation": "Vérifier que les clés sont générées et stockées dans AndroidKeyStore."
+    },
+    {
+      "id": "CC-073",
+      "title": "BouncyCastle provider détecté (vérifier configuration)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "BC",
+      "recommendation": "Vérifier versions/provider. Sur Android, préférer providers système si possible."
+    },
+    {
+      "id": "CC-074",
+      "title": "SpongyCastle provider détecté (obsolète)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-1104"],
+      "type": "STRING",
+      "pattern": "spongycastle",
+      "recommendation": "Éviter libs obsolètes. Utiliser providers modernes/maintenus."
+    },
+    {
+      "id": "CC-075",
+      "title": "Conscrypt détecté (OK mais vérifier versions)",
+      "severity": "INFO",
+      "cwe": ["CWE-1104"],
+      "type": "STRING",
+      "pattern": "conscrypt",
+      "recommendation": "Vérifier version et configuration TLS."
+    },
+    {
+      "id": "CC-076",
+      "title": "TLSv1 détecté (protocole ancien)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "TLSv1",
+      "recommendation": "Désactiver TLS 1.0/1.1. Utiliser TLS 1.2/1.3."
+    },
+    {
+      "id": "CC-077",
+      "title": "TLSv1.1 détecté (protocole ancien)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "TLSv1.1",
+      "recommendation": "Désactiver TLS 1.1. Utiliser TLS 1.2/1.3."
+    },
+    {
+      "id": "CC-078",
+      "title": "SSLv3 détecté (cassé)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "SSLv3",
+      "recommendation": "Interdire SSLv3. Utiliser TLS 1.2/1.3."
+    },
+    {
+      "id": "CC-079",
+      "title": "SSLContext.getInstance(\"SSL\") détecté (à éviter)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "SSLContext.getInstance(\"SSL\")",
+      "recommendation": "Utiliser TLSv1.2/1.3 explicitement, pas \"SSL\"."
+    },
+    {
+      "id": "CC-080",
+      "title": "TrustManagerFactory détecté (vérifier truststore)",
+      "severity": "LOW",
+      "cwe": ["CWE-295"],
+      "type": "STRING",
+      "pattern": "TrustManagerFactory",
+      "recommendation": "Vérifier qu'il n'y a pas de TrustManager permissif (trust-all)."
+    },
+
+    {
+      "id": "CC-081",
+      "title": "X509TrustManager détecté (risque trust-all)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-295"],
+      "type": "STRING",
+      "pattern": "X509TrustManager",
+      "recommendation": "S'assurer que checkServerTrusted valide réellement les certificats."
+    },
+    {
+      "id": "CC-082",
+      "title": "HostnameVerifier détecté (risque acceptation totale)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-295"],
+      "type": "STRING",
+      "pattern": "HostnameVerifier",
+      "recommendation": "Ne pas retourner toujours true. Utiliser la vérification standard."
+    },
+    {
+      "id": "CC-083",
+      "title": "getAcceptedIssuers retourne null (trust-all suspect)",
+      "severity": "HIGH",
+      "cwe": ["CWE-295"],
+      "type": "STRING",
+      "pattern": "getAcceptedIssuers",
+      "recommendation": "Implémentation trust-all est dangereuse. Utiliser TrustManager par défaut."
+    },
+    {
+      "id": "CC-084",
+      "title": "checkServerTrusted vide (trust-all suspect)",
+      "severity": "HIGH",
+      "cwe": ["CWE-295"],
+      "type": "STRING",
+      "pattern": "checkServerTrusted",
+      "recommendation": "Ne pas bypass la validation TLS. Utiliser implémentation système."
+    },
+    {
+      "id": "CC-085",
+      "title": "BYPASS TLS: \"TrustAll\" détecté",
+      "severity": "HIGH",
+      "cwe": ["CWE-295"],
+      "type": "STRING",
+      "pattern": "TrustAll",
+      "recommendation": "Retirer les bypass TLS. Utiliser validation cert standard et pinning si besoin."
+    },
+    {
+      "id": "CC-086",
+      "title": "OkHostnameVerifier désactivé suspect",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-295"],
+      "type": "STRING",
+      "pattern": "ALLOW_ALL_HOSTNAME_VERIFIER",
+      "recommendation": "Ne pas désactiver hostname verification. Utiliser la vérification standard."
+    },
+    {
+      "id": "CC-087",
+      "title": "CertificatePinner détecté (OK mais vérifier pins)",
+      "severity": "INFO",
+      "cwe": ["CWE-295"],
+      "type": "STRING",
+      "pattern": "CertificatePinner",
+      "recommendation": "Vérifier pins à jour, stratégie de rotation et pins de backup."
+    },
+    {
+      "id": "CC-088",
+      "title": "RSA 1024 détecté (clé faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-326"],
+      "type": "STRING",
+      "pattern": "1024",
+      "recommendation": "Utiliser RSA >= 2048 (idéal 3072) ou EC moderne."
+    },
+    {
+      "id": "CC-089",
+      "title": "DSA détecté (à éviter souvent)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "DSA",
+      "recommendation": "Préférer ECDSA moderne ou RSA-PSS."
+    },
+    {
+      "id": "CC-090",
+      "title": "SHA1withDSA détecté (signature faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "SHA1withDSA",
+      "recommendation": "Utiliser SHA256withECDSA ou SHA256withRSA/PSS."
+    },
+
+    {
+      "id": "CC-091",
+      "title": "ECIES détecté (vérifier paramètres)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "ECIES",
+      "recommendation": "Vérifier courbes et paramètres modernes, préférer schémas standards validés."
+    },
+    {
+      "id": "CC-092",
+      "title": "ECDSA détecté (vérifier hash SHA-256+)",
+      "severity": "INFO",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "ECDSA",
+      "recommendation": "Éviter SHA-1. Utiliser SHA-256/512."
+    },
+    {
+      "id": "CC-093",
+      "title": "SHA1withECDSA détecté (signature faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "SHA1withECDSA",
+      "recommendation": "Utiliser SHA256withECDSA."
+    },
+    {
+      "id": "CC-094",
+      "title": "Ed25519 détecté (bon choix)",
+      "severity": "INFO",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "Ed25519",
+      "recommendation": "Bon choix moderne. Vérifier implémentation et stockage des clés."
+    },
+    {
+      "id": "CC-095",
+      "title": "X25519 détecté (bon choix)",
+      "severity": "INFO",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "X25519",
+      "recommendation": "Bon choix pour échange de clé moderne."
+    },
+    {
+      "id": "CC-096",
+      "title": "RSA KeyFactory détecté (vérifier padding et tailles)",
+      "severity": "LOW",
+      "cwe": ["CWE-326"],
+      "type": "STRING",
+      "pattern": "KeyFactory",
+      "recommendation": "Vérifier tailles de clés et usage OAEP/PSS."
+    },
+    {
+      "id": "CC-097",
+      "title": "PKCS1Padding détecté (préférer OAEP pour chiffrement)",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-780"],
+      "type": "STRING",
+      "pattern": "PKCS1Padding",
+      "recommendation": "Pour chiffrement RSA: OAEP SHA-256. PKCS#1 v1.5 à éviter."
+    },
+    {
+      "id": "CC-098",
+      "title": "MGF1 détecté (vérifier hash OAEP)",
+      "severity": "INFO",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "MGF1",
+      "recommendation": "Pour OAEP: utiliser SHA-256/512 (éviter SHA-1)."
+    },
+    {
+      "id": "CC-099",
+      "title": "PKCS5Padding détecté (vérifier MAC/AEAD si CBC)",
+      "severity": "LOW",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "PKCS5Padding",
+      "recommendation": "Si mode CBC: ajouter MAC ou migrer vers AEAD."
+    },
+    {
+      "id": "CC-100",
+      "title": "javax.crypto.Mac utilisé (vérifier algo fort)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "javax/crypto/Mac",
+      "recommendation": "Préférer HmacSHA256/512. Éviter HmacMD5/HmacSHA1."
+    },
+
+    {
+      "id": "CC-101",
+      "title": "CipherOutputStream utilisé (vérifier gestion IV/tag)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "CipherOutputStream",
+      "recommendation": "S'assurer que IV/nonce/tag sont stockés/transmis correctement (AEAD)."
+    },
+    {
+      "id": "CC-102",
+      "title": "CipherInputStream utilisé (vérifier gestion IV/tag)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "CipherInputStream",
+      "recommendation": "S'assurer que IV/nonce/tag sont vérifiés (AEAD) avant usage des données."
+    },
+    {
+      "id": "CC-103",
+      "title": "javax.crypto.spec.GCMParameterSpec (vérifier nonce unique)",
+      "severity": "INFO",
+      "cwe": ["CWE-329"],
+      "type": "STRING",
+      "pattern": "javax/crypto/spec/GCMParameterSpec",
+      "recommendation": "Nonce unique par chiffrement; ne jamais réutiliser nonce avec la même clé."
+    },
+    {
+      "id": "CC-104",
+      "title": "java.security.KeyStore utilisé (vérifier protection)",
+      "severity": "LOW",
+      "cwe": ["CWE-522"],
+      "type": "STRING",
+      "pattern": "java/security/KeyStore",
+      "recommendation": "Utiliser AndroidKeyStore si possible et protéger les aliases/accès."
+    },
+    {
+      "id": "CC-105",
+      "title": "Hardcoded key suspect: \"secret\"",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-321"],
+      "type": "STRING",
+      "pattern": "secret",
+      "recommendation": "Éviter clés en dur. Utiliser Keystore ou KDF sécurisé avec sel."
+    },
+    {
+      "id": "CC-106",
+      "title": "Hardcoded key suspect: \"password\"",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-259", "CWE-321"],
+      "type": "STRING",
+      "pattern": "password",
+      "recommendation": "Ne pas stocker mots de passe/keys en dur. Utiliser secrets management + Keystore."
+    },
+    {
+      "id": "CC-107",
+      "title": "Hardcoded key suspect: \"apikey\"",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-798"],
+      "type": "STRING",
+      "pattern": "apikey",
+      "recommendation": "Éviter secrets en clair. Utiliser backend + rotation + chiffrement/keystore."
+    },
+    {
+      "id": "CC-108",
+      "title": "PBKDF2 (générique) détecté (vérifier itérations)",
+      "severity": "LOW",
+      "cwe": ["CWE-916"],
+      "type": "STRING",
+      "pattern": "PBKDF2",
+      "recommendation": "Vérifier: sel aléatoire unique + itérations élevées + hash moderne."
+    },
+    {
+      "id": "CC-109",
+      "title": "AES keysize 128 détecté (OK mais vérifier contexte)",
+      "severity": "INFO",
+      "cwe": ["CWE-326"],
+      "type": "STRING",
+      "pattern": "128",
+      "recommendation": "128 bits OK. Si long terme/high security: considérer 256 bits."
+    },
+    {
+      "id": "CC-110",
+      "title": "AES keysize 256 détecté (OK)",
+      "severity": "INFO",
+      "cwe": ["CWE-326"],
+      "type": "STRING",
+      "pattern": "256",
+      "recommendation": "Bonne taille clé. Vérifier génération via SecureRandom/Keystore."
+    },
+
+    {
+      "id": "CC-111",
+      "title": "SHA1PRNG (SMALI) via SecureRandom.getInstance détecté",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/security/SecureRandom;->getInstance\\(Ljava/lang/String;\\)",
+      "recommendation": "Éviter SHA1PRNG. Utiliser SecureRandom() sans algo explicite."
+    },
+    {
+      "id": "CC-112",
+      "title": "Random seed via setSeed(long) détecté",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "Ljava/util/Random;->setSeed\\(J\\)V",
+      "recommendation": "Ne pas utiliser seed prédictible pour générer des secrets. Utiliser SecureRandom."
+    },
+    {
+      "id": "CC-113",
+      "title": "PRNG faible: java.util.Random() sans seed explicite",
+      "severity": "MEDIUM",
+      "cwe": ["CWE-338"],
+      "type": "SMALI_REGEX",
+      "pattern": "new-instance\\s+v\\d+,\\s+Ljava/util/Random;",
+      "recommendation": "Même sans seed, Random n'est pas cryptographiquement sûr. Utiliser SecureRandom."
+    },
+    {
+      "id": "CC-114",
+      "title": "Crypto provider personnalisé (vérifier confiance)",
+      "severity": "LOW",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "Security.addProvider",
+      "recommendation": "Vérifier provider et version. Éviter providers non maintenus."
+    },
+    {
+      "id": "CC-115",
+      "title": "Cipher.getInstance(\"AES\") ambigu (risque ECB par défaut)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "Cipher.getInstance(\"AES\")",
+      "recommendation": "Spécifier transformation complète: AES/GCM/NoPadding."
+    },
+    {
+      "id": "CC-116",
+      "title": "Cipher.getInstance(\"DES\") (obsolète)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "Cipher.getInstance(\"DES\")",
+      "recommendation": "Remplacer par AES/GCM/NoPadding."
+    },
+    {
+      "id": "CC-117",
+      "title": "MessageDigest.getInstance(\"MD5\") (hash faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-328"],
+      "type": "STRING",
+      "pattern": "MessageDigest.getInstance(\"MD5\")",
+      "recommendation": "Remplacer par SHA-256/512."
+    },
+    {
+      "id": "CC-118",
+      "title": "MessageDigest.getInstance(\"SHA-1\") (hash faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-328"],
+      "type": "STRING",
+      "pattern": "MessageDigest.getInstance(\"SHA-1\")",
+      "recommendation": "Remplacer par SHA-256/512."
+    },
+    {
+      "id": "CC-119",
+      "title": "Signature.getInstance(\"SHA1withRSA\") (signature faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "Signature.getInstance(\"SHA1withRSA\")",
+      "recommendation": "Utiliser SHA256withRSA (ou RSA-PSS)."
+    },
+    {
+      "id": "CC-120",
+      "title": "Signature.getInstance(\"MD5withRSA\") (signature faible)",
+      "severity": "HIGH",
+      "cwe": ["CWE-327"],
+      "type": "STRING",
+      "pattern": "Signature.getInstance(\"MD5withRSA\")",
+      "recommendation": "Utiliser SHA256withRSA (ou RSA-PSS) / ECDSA SHA-256."
+    }
+  ]
+}

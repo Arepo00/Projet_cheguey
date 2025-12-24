@@ -1,0 +1,352 @@
+[
+  {
+    "id": "SH-RX-001",
+    "title": "AWS Access Key ID",
+    "severity": "HIGH",
+    "pattern": "AKIA[0-9A-Z]{16}",
+    "recommendation": "Révoquer la clé AWS, la retirer du code, et utiliser IAM + Secrets Manager."
+  },
+  {
+    "id": "SH-RX-002",
+    "title": "AWS Access Key ID (ASIA - temp creds)",
+    "severity": "HIGH",
+    "pattern": "ASIA[0-9A-Z]{16}",
+    "recommendation": "Révoquer/expirer les credentials temporaires, supprimer du code et utiliser STS correctement."
+  },
+  {
+    "id": "SH-RX-003",
+    "title": "AWS Secret Access Key (heuristic)",
+    "severity": "HIGH",
+    "pattern": "(?i)aws(.{0,20})?(secret|access)?[_-]?key(.{0,20})?['\\\"][0-9a-zA-Z\\/+=]{40}['\\\"]",
+    "recommendation": "Révoquer la clé, supprimer du code, utiliser un gestionnaire de secrets."
+  },
+  {
+    "id": "SH-RX-004",
+    "title": "Google API Key (AIza...)",
+    "severity": "HIGH",
+    "pattern": "AIza[0-9A-Za-z\\-_]{35}",
+    "recommendation": "Restreindre la clé (HTTP referrers / Android SHA1), régénérer, stocker en secret manager."
+  },
+  {
+    "id": "SH-RX-005",
+    "title": "Firebase Server Key (AAAA...)",
+    "severity": "HIGH",
+    "pattern": "AAAA[A-Za-z0-9_\\-]{7,}:[A-Za-z0-9_\\-]{140,}",
+    "recommendation": "Révoquer et remplacer par un mécanisme backend sécurisé."
+  },
+  {
+    "id": "SH-RX-006",
+    "title": "GitHub Personal Access Token (ghp_...)",
+    "severity": "HIGH",
+    "pattern": "ghp_[A-Za-z0-9]{36}",
+    "recommendation": "Révoquer le token GitHub, auditer l’historique git, utiliser des secrets CI."
+  },
+  {
+    "id": "SH-RX-007",
+    "title": "GitHub OAuth Token (gho_...)",
+    "severity": "HIGH",
+    "pattern": "gho_[A-Za-z0-9]{36}",
+    "recommendation": "Révoquer et remplacer, éviter hardcode."
+  },
+  {
+    "id": "SH-RX-008",
+    "title": "GitHub App Token (ghs_...)",
+    "severity": "HIGH",
+    "pattern": "ghs_[A-Za-z0-9]{36}",
+    "recommendation": "Révoquer, utiliser secrets manager/CI."
+  },
+  {
+    "id": "SH-RX-009",
+    "title": "GitHub User Token (ghu_...)",
+    "severity": "HIGH",
+    "pattern": "ghu_[A-Za-z0-9]{36}",
+    "recommendation": "Révoquer et régénérer."
+  },
+  {
+    "id": "SH-RX-010",
+    "title": "GitLab Personal Access Token (glpat-...)",
+    "severity": "HIGH",
+    "pattern": "glpat-[A-Za-z0-9_\\-]{20,}",
+    "recommendation": "Révoquer le token GitLab, retirer du code."
+  },
+  {
+    "id": "SH-RX-011",
+    "title": "Slack Token (xoxb/xoxp/...)",
+    "severity": "HIGH",
+    "pattern": "xox[baprs]-[0-9A-Za-z\\-]{10,48}",
+    "recommendation": "Révoquer le token Slack, utiliser OAuth sécurisé."
+  },
+  {
+    "id": "SH-RX-012",
+    "title": "Stripe Secret Key (sk_live_...)",
+    "severity": "HIGH",
+    "pattern": "sk_live_[0-9a-zA-Z]{24,}",
+    "recommendation": "Révoquer la clé Stripe, utiliser variables d’environnement + rotation."
+  },
+  {
+    "id": "SH-RX-013",
+    "title": "Stripe Restricted Key (rk_live_...)",
+    "severity": "HIGH",
+    "pattern": "rk_live_[0-9a-zA-Z]{24,}",
+    "recommendation": "Révoquer et restreindre l’usage via dashboard Stripe."
+  },
+  {
+    "id": "SH-RX-014",
+    "title": "Twilio Account SID (AC...)",
+    "severity": "MEDIUM",
+    "pattern": "AC[a-f0-9]{32}",
+    "recommendation": "Vérifier si associé à un secret (Auth Token), éviter exposition."
+  },
+  {
+    "id": "SH-RX-015",
+    "title": "Twilio API Key (SK...)",
+    "severity": "HIGH",
+    "pattern": "SK[a-f0-9]{32}",
+    "recommendation": "Révoquer/rotater la clé Twilio et stocker en secret manager."
+  },
+  {
+    "id": "SH-RX-016",
+    "title": "SendGrid API Key (SG...)",
+    "severity": "HIGH",
+    "pattern": "SG\\.[A-Za-z0-9_\\-]{20,}\\.[A-Za-z0-9_\\-]{20,}",
+    "recommendation": "Révoquer la clé SendGrid, supprimer du code."
+  },
+  {
+    "id": "SH-RX-017",
+    "title": "Mailgun API Key (key-...)",
+    "severity": "HIGH",
+    "pattern": "key-[0-9a-f]{32}",
+    "recommendation": "Révoquer la clé Mailgun, utiliser env/secrets."
+  },
+  {
+    "id": "SH-RX-018",
+    "title": "Dropbox Access Token",
+    "severity": "HIGH",
+    "pattern": "sl\\.[A-Za-z0-9\\-_]{20,}",
+    "recommendation": "Révoquer le token Dropbox."
+  },
+  {
+    "id": "SH-RX-019",
+    "title": "DigitalOcean Token (dop_v1_...)",
+    "severity": "HIGH",
+    "pattern": "dop_v1_[A-Za-z0-9]{48}",
+    "recommendation": "Révoquer le token DigitalOcean."
+  },
+  {
+    "id": "SH-RX-020",
+    "title": "Telegram Bot Token",
+    "severity": "HIGH",
+    "pattern": "[0-9]{8,10}:[A-Za-z0-9_\\-]{35}",
+    "recommendation": "Révoquer via BotFather, régénérer et stocker en secret manager."
+  },
+  {
+    "id": "SH-RX-021",
+    "title": "Discord Bot Token (heuristic)",
+    "severity": "HIGH",
+    "pattern": "[MN][A-Za-z0-9]{23}\\.[A-Za-z0-9]{6}\\.[A-Za-z0-9_\\-]{27}",
+    "recommendation": "Révoquer le token Discord et régénérer."
+  },
+  {
+    "id": "SH-RX-022",
+    "title": "JWT Token",
+    "severity": "MEDIUM",
+    "pattern": "eyJ[A-Za-z0-9_\\-]{10,}\\.eyJ[A-Za-z0-9_\\-]{10,}\\.[A-Za-z0-9_\\-]{10,}",
+    "recommendation": "Ne jamais logger/exposer des JWT. Utiliser rotation/expiration courte."
+  },
+  {
+    "id": "SH-RX-023",
+    "title": "Private Key Block (BEGIN ... PRIVATE KEY)",
+    "severity": "CRITICAL",
+    "pattern": "-----BEGIN (RSA|DSA|EC|OPENSSH|PGP) PRIVATE KEY-----",
+    "recommendation": "Révoquer la clé, retirer du repo, rotation immédiate."
+  },
+  {
+    "id": "SH-RX-024",
+    "title": "GCP Service Account (type: service_account)",
+    "severity": "HIGH",
+    "pattern": "\"type\"\\s*:\\s*\"service_account\"",
+    "recommendation": "Ne pas embarquer de service account JSON dans l’app, déplacer côté backend."
+  },
+  {
+    "id": "SH-RX-025",
+    "title": "GCP Private Key ID",
+    "severity": "HIGH",
+    "pattern": "\"private_key_id\"\\s*:\\s*\"[a-f0-9]{20,}\"",
+    "recommendation": "Retirer le fichier JSON, rotation des clés."
+  },
+  {
+    "id": "SH-RX-026",
+    "title": "Azure Storage Connection String (AccountKey=...)",
+    "severity": "HIGH",
+    "pattern": "AccountKey=[A-Za-z0-9+/=]{30,}",
+    "recommendation": "Révoquer la clé storage, utiliser SAS + rotation."
+  },
+  {
+    "id": "SH-RX-027",
+    "title": "Azure SAS Token (sv=...&sig=...)",
+    "severity": "HIGH",
+    "pattern": "sv=[0-9]{4}-[0-9]{2}-[0-9]{2}.*?&sig=[A-Za-z0-9%/+=]{20,}",
+    "recommendation": "Raccourcir validité SAS, limiter permissions, ne pas hardcoder."
+  },
+  {
+    "id": "SH-RX-028",
+    "title": "Firebase Database URL",
+    "severity": "LOW",
+    "pattern": "https://[A-Za-z0-9\\-]+\\.firebaseio\\.com",
+    "recommendation": "S’assurer que les règles Firebase ne permettent pas accès non-auth."
+  },
+  {
+    "id": "SH-RX-029",
+    "title": "Sentry DSN",
+    "severity": "MEDIUM",
+    "pattern": "https://[A-Za-z0-9]+@[A-Za-z0-9\\.-]+/[0-9]+",
+    "recommendation": "Ne pas exposer DSN si config sensible, limiter côté serveur si possible."
+  },
+  {
+    "id": "SH-RX-030",
+    "title": "Okta Token (heuristic)",
+    "severity": "HIGH",
+    "pattern": "00[a-zA-Z0-9]{20,}\\.[a-zA-Z0-9]{20,}\\.[a-zA-Z0-9_\\-]{20,}",
+    "recommendation": "Rotation et stockage sécurisé, vérifier portée du token."
+  },
+  {
+    "id": "SH-RX-031",
+    "title": "Auth0 Client Secret (heuristic)",
+    "severity": "HIGH",
+    "pattern": "(?i)auth0(.{0,20})?client(.{0,10})?secret\\s*[:=]\\s*['\\\"][A-Za-z0-9_\\-]{16,}['\\\"]",
+    "recommendation": "Ne pas inclure côté mobile, déplacer au backend."
+  },
+  {
+    "id": "SH-RX-032",
+    "title": "Password assignment (password=...)",
+    "severity": "MEDIUM",
+    "pattern": "(?i)(password|passwd|pwd)\\s*[:=]\\s*['\\\"][^'\\\"]{6,}['\\\"]",
+    "recommendation": "Supprimer mots de passe hardcodés, utiliser secrets manager."
+  },
+  {
+    "id": "SH-RX-033",
+    "title": "API key assignment (apiKey=...)",
+    "severity": "MEDIUM",
+    "pattern": "(?i)(api[_-]?key|apikey)\\s*[:=]\\s*['\\\"][A-Za-z0-9_\\-]{16,}['\\\"]",
+    "recommendation": "Stocker en backend/secret manager, ne pas hardcoder."
+  },
+  {
+    "id": "SH-RX-034",
+    "title": "Bearer token in header string",
+    "severity": "MEDIUM",
+    "pattern": "(?i)authorization\\s*[:=]\\s*['\\\"]Bearer\\s+[A-Za-z0-9_\\-\\.]{20,}['\\\"]",
+    "recommendation": "Ne pas committer de tokens, rotation."
+  },
+  {
+    "id": "SH-RX-035",
+    "title": "Basic auth URL (user:pass@host)",
+    "severity": "HIGH",
+    "pattern": "https?://[^\\s/:@]+:[^\\s@]+@[^\\s/]+",
+    "recommendation": "Supprimer credentials dans URL, utiliser OAuth / secrets."
+  },
+  {
+    "id": "SH-RX-036",
+    "title": "MongoDB URI (mongodb://)",
+    "severity": "HIGH",
+    "pattern": "mongodb(\\+srv)?://[^\\s]+",
+    "recommendation": "Ne pas hardcoder URI, utiliser variables d’environnement, limiter IP/roles."
+  },
+  {
+    "id": "SH-RX-037",
+    "title": "PostgreSQL URI (postgres://)",
+    "severity": "HIGH",
+    "pattern": "postgres(ql)?://[^\\s]+",
+    "recommendation": "Ne pas hardcoder URI, secrets manager."
+  },
+  {
+    "id": "SH-RX-038",
+    "title": "MySQL URI (mysql://)",
+    "severity": "HIGH",
+    "pattern": "mysql://[^\\s]+",
+    "recommendation": "Ne pas hardcoder credentials DB, rotation."
+  },
+  {
+    "id": "SH-RX-039",
+    "title": "Redis URI (redis://)",
+    "severity": "MEDIUM",
+    "pattern": "redis://[^\\s]+",
+    "recommendation": "Limiter accès, password/ACL, ne pas exposer."
+  },
+  {
+    "id": "SH-RX-040",
+    "title": "OAuth Client ID",
+    "severity": "LOW",
+    "pattern": "(?i)client[_-]?id\\s*[:=]\\s*['\\\"][A-Za-z0-9_\\-]{10,}['\\\"]",
+    "recommendation": "OK exposable parfois, mais vérifier que secret n’est pas exposé."
+  },
+  {
+    "id": "SH-RX-041",
+    "title": "OAuth Client Secret",
+    "severity": "HIGH",
+    "pattern": "(?i)client[_-]?secret\\s*[:=]\\s*['\\\"][A-Za-z0-9_\\-]{12,}['\\\"]",
+    "recommendation": "Ne pas inclure côté mobile; déplacer au backend."
+  },
+  {
+    "id": "SH-RX-042",
+    "title": "Braintree Access Token",
+    "severity": "HIGH",
+    "pattern": "access_token\\$production\\$[0-9a-z]{16}\\$[0-9a-f]{32}",
+    "recommendation": "Révoquer le token Braintree."
+  },
+  {
+    "id": "SH-RX-043",
+    "title": "PayPal/Braintree Client ID (heuristic)",
+    "severity": "MEDIUM",
+    "pattern": "A[A-Za-z0-9\\-_]{40,}",
+    "recommendation": "Vérifier si associé à un secret; ne pas exposer secrets."
+  },
+  {
+    "id": "SH-RX-044",
+    "title": "Square Access Token",
+    "severity": "HIGH",
+    "pattern": "sq0atp-[0-9A-Za-z\\-_]{22,}",
+    "recommendation": "Révoquer le token Square, stocker en backend."
+  },
+  {
+    "id": "SH-RX-045",
+    "title": "Shopify Access Token",
+    "severity": "HIGH",
+    "pattern": "shpat_[A-Fa-f0-9]{32}",
+    "recommendation": "Révoquer le token Shopify."
+  },
+  {
+    "id": "SH-RX-046",
+    "title": "NPM Token",
+    "severity": "HIGH",
+    "pattern": "npm_[A-Za-z0-9]{36}",
+    "recommendation": "Révoquer le token NPM, retirer des sources."
+  },
+  {
+    "id": "SH-RX-047",
+    "title": "PyPI Token",
+    "severity": "HIGH",
+    "pattern": "pypi-[A-Za-z0-9_\\-]{20,}",
+    "recommendation": "Révoquer le token PyPI."
+  },
+  {
+    "id": "SH-RX-048",
+    "title": "Heroku API Key (heuristic 32 hex)",
+    "severity": "HIGH",
+    "pattern": "(?i)heroku(.{0,20})?(api[_-]?key|token)(.{0,20})?['\\\"][0-9a-f]{32}['\\\"]",
+    "recommendation": "Révoquer la clé Heroku."
+  },
+  {
+    "id": "SH-RX-049",
+    "title": "Generic long token (32+ chars)",
+    "severity": "LOW",
+    "pattern": "(?i)(token|secret)\\s*[:=]\\s*['\\\"][A-Za-z0-9_\\-]{32,}['\\\"]",
+    "recommendation": "Vérifier si c’est un vrai secret, sinon réduire faux positifs (whitelist)."
+  },
+  {
+    "id": "SH-RX-050",
+    "title": "Hardcoded API endpoint with key param (?key=...)",
+    "severity": "MEDIUM",
+    "pattern": "https?://[^\\s]+[?&](key|api_key|apikey|token)=[A-Za-z0-9_\\-]{8,}",
+    "recommendation": "Retirer les clés des URLs, utiliser header sécurisé côté backend."
+  }
+]

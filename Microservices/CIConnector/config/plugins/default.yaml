@@ -1,0 +1,87 @@
+name: default
+
+defaults:
+  COMPOSE_FILE: docker-compose.yml
+  APK_PATH: ./samples/app.apk
+  PACKAGE: com.example.app
+  PARENT_SCAN_ID: "0"
+
+  APK_SCANNER_URL: http://localhost:8001
+  SECRET_HUNTER_URL: http://localhost:8002
+  CRYPTO_CHECK_URL: http://localhost:8003
+  NETWORK_INSPECTOR_URL: http://localhost:8004
+  REPORTGEN_URL: http://localhost:8005
+
+github_actions:
+  name: "MobileSec-MS Scan"
+  on:
+    push:
+      branches: ["main"]
+    pull_request:
+      branches: ["main"]
+
+  jobs:
+    scan:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Setup Docker Buildx
+          uses: docker/setup-buildx-action@v3
+
+        - name: Start stack
+          run: |
+            docker compose -f ${COMPOSE_FILE} up -d --build
+
+        - name: Wait services
+          run: |
+            set -e
+            for url in \
+              "${APK_SCANNER_URL}/health" \
+              "${SECRET_HUNTER_URL}/health" \
+              "${CRYPTO_CHECK_URL}/health" \
+              "${NETWORK_INSPECTOR_URL}/health" \
+              "${REPORTGEN_URL}/health"
+            do
+              echo "Waiting $url ..."
+              ok=0
+              for i in $(seq 1 30); do
+                if curl -fsS "$url" >/dev/null; then ok=1; break; fi
+                sleep 2
+              done
+              if [ "$ok" -ne 1 ]; then
+                echo "Service not ready: $url"
+                exit 1
+              fi
+            done
+
+        - name: Run scan script
+          run: |
+            ${SCAN_SCRIPT}
+
+        - name: Down
+          if: always()
+          run: |
+            docker compose -f ${COMPOSE_FILE} down -v
+
+
+gitlab_ci:
+  stages: [scan]
+
+  scan:
+    stage: scan
+    image: docker:27
+    services:
+      - docker:27-dind
+    variables:
+      DOCKER_HOST: tcp://docker:2375
+      DOCKER_TLS_CERTDIR: ""
+    before_script:
+      - docker info
+    script:
+      - docker compose -f ${COMPOSE_FILE} up -d --build
+      - echo "Waiting services..."
+      - ${SCAN_SCRIPT}
+    after_script:
+      - docker compose -f ${COMPOSE_FILE} down -v

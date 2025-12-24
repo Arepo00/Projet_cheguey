@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/imageView" android:layout_width="89.0dip" android:layout_height="61.0dip" android:layout_marginLeft="150.0dip" android:layout_marginTop="200.0dip" app:srcCompat="@drawable/person" />
+    <TextView android:textSize="22.0sp" android:textStyle="bold" android:id="@id/accountid" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="155.0dip" android:layout_below="@id/imageView" />
+    <EditText android:textSize="15.0sp" android:textStyle="bold" android:id="@id/accountid1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="100.0dip" android:layout_marginTop="0.0dip" android:hint="Enter Account ID Again" android:layout_below="@id/accountid" android:inputType="numberDecimal" />
+    <Button android:textColor="@color/white" android:background="@drawable/circle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="115.0dip" android:layout_marginTop="12.0dip" android:text="Approve Benificiary " android:layout_below="@id/accountid1" android:onClick="approveBeneficiary" />
+</RelativeLayout>

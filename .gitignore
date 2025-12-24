@@ -1,0 +1,309 @@
+# ============================================================================
+# MICROSERVICES - GITIGNORE
+# Independent Python FastAPI microservices + ReportGen (Node.js)
+# Each microservice: APKScanner, SecretHunter, CryptoCheck, NetworkInspector,
+# FixSuggest, CIConnector, AndroidRunner
+# ============================================================================
+
+# ============================================================================
+# PYTHON DEPENDENCIES & VIRTUAL ENVIRONMENTS
+# ============================================================================
+venv/
+env/
+ENV/
+.venv/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.whl
+
+# ============================================================================
+# PYTHON CACHE & COMPILED FILES
+# ============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.c
+*.o
+*.a
+*.so
+*.dylib
+
+# ============================================================================
+# NODE.JS (ReportGen service)
+# ============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+dist/
+.next/
+out/
+
+# ============================================================================
+# DATABASES & PERSISTENCE
+# ============================================================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+*.sqlitedb
+
+# ============================================================================
+# UPLOADED FILES & TEMPORARY DATA
+# ============================================================================
+# APKScanner
+APKScanner/data/uploads/*
+!APKScanner/data/uploads/.gitkeep
+APKScanner/data/apktool/
+
+# CryptoCheck
+CryptoCheck/data/uploads/*
+!CryptoCheck/data/uploads/.gitkeep
+CryptoCheck/data/work/*
+!CryptoCheck/data/work/.gitkeep
+
+# SecretHunter
+SecretHunter/data/uploads/*
+!SecretHunter/data/uploads/.gitkeep
+SecretHunter/data/work/*
+!SecretHunter/data/work/.gitkeep
+
+# NetworkInspector
+NetworkInspector/data/flows.jsonl
+NetworkInspector/data/flows/*.jsonl
+NetworkInspector/data/snapshots/*
+!NetworkInspector/data/snapshots/.gitkeep
+NetworkInspector/data/captures/
+
+# FixSuggest
+FixSuggest/data/*
+!FixSuggest/data/.gitkeep
+
+# CIConnector
+CIConnector/data/*
+!CIConnector/data/.gitkeep
+
+# ReportGen
+ReportGen/data/reports/*
+!ReportGen/data/reports/.gitkeep
+
+# AndroidRunner
+AndroidRunner/data/*
+!AndroidRunner/data/.gitkeep
+
+# ============================================================================
+# ENVIRONMENT VARIABLES & SECRETS
+# ============================================================================
+.env
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+.env.test.local
+.env.secrets
+.env.docker
+
+# ============================================================================
+# IDE & EDITOR
+# ============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+.history/
+.ionide/
+*.code-workspace
+.vim/
+.emacs.d/
+
+# ============================================================================
+# OS FILES
+# ============================================================================
+Thumbs.db
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# ============================================================================
+# LOGS
+# ============================================================================
+logs/
+*.log
+*.log.*
+npm-debug.log*
+lerna-debug.log*
+python-debug.log
+
+# ============================================================================
+# TESTING & COVERAGE
+# ============================================================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.lcov
+dist/coverage/
+.tox/
+.hypothesis/
+__pycache__/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ============================================================================
+# TEMPORARY & CACHE FILES
+# ============================================================================
+.cache/
+.tmp/
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+*~
+.ipynb_checkpoints/
+
+# ============================================================================
+# DOCKER
+# ============================================================================
+.dockerignore
+docker-compose.override.yml
+.docker/
+
+# ============================================================================
+# SENSITIVE DATA & KEYS
+# ============================================================================
+*.pem
+*.key
+*.crt
+*.cert
+*.pfx
+secrets/
+.ssh/
+api_keys.txt
+private_keys/
+
+# ============================================================================
+# ANDROID EMULATOR & TOOLS
+# ============================================================================
+# For NetworkInspector using mitmproxy + Android emulator
+.avd/
+emulator/
+*.avd
+*.ini
+
+# ============================================================================
+# JAVA/ANDROID BUILD (if using Apktool/JADX)
+# ============================================================================
+*.class
+*.classpath
+*.project
+.gradle/
+build/
+.gradletasknamecache
+
+# ============================================================================
+# EXTRACTED/DECOMPILED CODE (APKs, JARs)
+# ============================================================================
+# APKScanner
+APKScanner/data/decoded/
+APKScanner/data/sources/
+
+# CryptoCheck
+CryptoCheck/data/decoded/
+CryptoCheck/data/sources/
+CryptoCheck/data/smali/
+
+# SecretHunter
+SecretHunter/data/extracted/
+
+# ============================================================================
+# MITMPROXY ADDONS & CACHE
+# ============================================================================
+NetworkInspector/.mitmproxy/
+NetworkInspector/mitmproxy_cache/
+NetworkInspector/mitm_data/
+
+# ============================================================================
+# MISCELLANEOUS
+# ============================================================================
+.replit
+.env.replit
+replit.nix
+*.tar
+*.tar.gz
+*.zip
+*.rar
+.venv-backup/
+
+# ============================================================================
+# AUTO-GENERATED FILES
+# ============================================================================
+*.pyc
+*.pyo
+*.pyd
+.eggs/
+
+# ============================================================================
+# CI/CD
+# ============================================================================
+.github/workflows/secrets.yml
+.gitlab-ci.local.yml
+.circleci/
+
+# ============================================================================
+# REPORTS & ARTIFACTS
+# ============================================================================
+ReportGen/data/reports/*.pdf
+ReportGen/data/reports/*.json
+ReportGen/data/reports/*.sarif
+reports/
+artifacts/
+
+# ============================================================================
+# RUNTIME GENERATED DATA
+# ============================================================================
+*.pid
+*.sock
+*.lock

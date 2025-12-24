@@ -1,0 +1,804 @@
+{
+  "rules": [
+    {
+      "id": "NI-TLS-000",
+      "title": "Aucune info TLS (HTTP ou MITM non établi)",
+      "severity": "HIGH",
+      "type": "TLS_MISSING",
+      "field": "tls_version",
+      "recommendation": "Forcer HTTPS. Vérifier proxy/certificat si attendu."
+    },
+    {
+      "id": "NI-TLS-V-001",
+      "title": "TLS version obsolète (TLSv1.1)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.1",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-002",
+      "title": "TLSv1.2 (OK minimum)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.2",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-003",
+      "title": "TLSv1.3 (recommandé)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.3",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-004",
+      "title": "TLS version obsolète (TLSv1.0)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.0",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-005",
+      "title": "TLS version obsolète (TLSv1.1)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.1",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-006",
+      "title": "TLSv1.2 (OK minimum)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.2",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-007",
+      "title": "TLSv1.3 (recommandé)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.3",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-008",
+      "title": "TLS version obsolète (TLSv1.0)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.0",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-009",
+      "title": "TLS version obsolète (TLSv1.1)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.1",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-010",
+      "title": "TLSv1.2 (OK minimum)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.2",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-011",
+      "title": "TLSv1.3 (recommandé)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.3",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-012",
+      "title": "TLS version obsolète (TLSv1.0)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.0",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-013",
+      "title": "TLS version obsolète (TLSv1.1)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.1",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-014",
+      "title": "TLSv1.2 (OK minimum)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.2",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-015",
+      "title": "TLSv1.3 (recommandé)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.3",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-016",
+      "title": "TLS version obsolète (TLSv1.0)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.0",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-017",
+      "title": "TLS version obsolète (TLSv1.1)",
+      "severity": "HIGH",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.1",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-018",
+      "title": "TLSv1.2 (OK minimum)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.2",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-V-019",
+      "title": "TLSv1.3 (recommandé)",
+      "severity": "LOW",
+      "type": "TLS_VERSION_EQUALS",
+      "value": "TLSv1.3",
+      "recommendation": "Désactiver TLS1.0/1.1. Préférer TLS1.2+ (TLS1.3 idéal)."
+    },
+    {
+      "id": "NI-TLS-C-001",
+      "title": "Cipher faible détecté: NULL cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "NULL",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-002",
+      "title": "Cipher faible détecté: EXPORT cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "EXPORT",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-003",
+      "title": "Cipher faible détecté: RC4 cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "RC4",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-004",
+      "title": "Cipher faible détecté: DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "\\bDES\\b",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-005",
+      "title": "Cipher faible détecté: 3DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "3DES",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-006",
+      "title": "Cipher faible détecté: MD5 in cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "MD5",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-007",
+      "title": "Cipher faible détecté: SHA1 in cipher",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "SHA1",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-008",
+      "title": "Cipher faible détecté: CBC mode (legacy)",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_CBC_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-009",
+      "title": "Cipher faible détecté: RSA key exchange",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "^TLS_RSA_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-010",
+      "title": "Cipher faible détecté: anon cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_anon_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-011",
+      "title": "Cipher faible détecté: NULL cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "NULL",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-012",
+      "title": "Cipher faible détecté: EXPORT cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "EXPORT",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-013",
+      "title": "Cipher faible détecté: RC4 cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "RC4",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-014",
+      "title": "Cipher faible détecté: DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "\\bDES\\b",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-015",
+      "title": "Cipher faible détecté: 3DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "3DES",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-016",
+      "title": "Cipher faible détecté: MD5 in cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "MD5",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-017",
+      "title": "Cipher faible détecté: SHA1 in cipher",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "SHA1",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-018",
+      "title": "Cipher faible détecté: CBC mode (legacy)",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_CBC_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-019",
+      "title": "Cipher faible détecté: RSA key exchange",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "^TLS_RSA_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-020",
+      "title": "Cipher faible détecté: anon cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_anon_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-021",
+      "title": "Cipher faible détecté: NULL cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "NULL",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-022",
+      "title": "Cipher faible détecté: EXPORT cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "EXPORT",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-023",
+      "title": "Cipher faible détecté: RC4 cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "RC4",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-024",
+      "title": "Cipher faible détecté: DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "\\bDES\\b",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-025",
+      "title": "Cipher faible détecté: 3DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "3DES",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-026",
+      "title": "Cipher faible détecté: MD5 in cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "MD5",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-027",
+      "title": "Cipher faible détecté: SHA1 in cipher",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "SHA1",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-028",
+      "title": "Cipher faible détecté: CBC mode (legacy)",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_CBC_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-029",
+      "title": "Cipher faible détecté: RSA key exchange",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "^TLS_RSA_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-030",
+      "title": "Cipher faible détecté: anon cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_anon_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-031",
+      "title": "Cipher faible détecté: NULL cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "NULL",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-032",
+      "title": "Cipher faible détecté: EXPORT cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "EXPORT",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-033",
+      "title": "Cipher faible détecté: RC4 cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "RC4",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-034",
+      "title": "Cipher faible détecté: DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "\\bDES\\b",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-035",
+      "title": "Cipher faible détecté: 3DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "3DES",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-036",
+      "title": "Cipher faible détecté: MD5 in cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "MD5",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-037",
+      "title": "Cipher faible détecté: SHA1 in cipher",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "SHA1",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-038",
+      "title": "Cipher faible détecté: CBC mode (legacy)",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_CBC_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-039",
+      "title": "Cipher faible détecté: RSA key exchange",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "^TLS_RSA_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-040",
+      "title": "Cipher faible détecté: anon cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_anon_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-041",
+      "title": "Cipher faible détecté: NULL cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "NULL",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-042",
+      "title": "Cipher faible détecté: EXPORT cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "EXPORT",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-043",
+      "title": "Cipher faible détecté: RC4 cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "RC4",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-044",
+      "title": "Cipher faible détecté: DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "\\bDES\\b",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-045",
+      "title": "Cipher faible détecté: 3DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "3DES",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-046",
+      "title": "Cipher faible détecté: MD5 in cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "MD5",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-047",
+      "title": "Cipher faible détecté: SHA1 in cipher",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "SHA1",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-048",
+      "title": "Cipher faible détecté: CBC mode (legacy)",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_CBC_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-049",
+      "title": "Cipher faible détecté: RSA key exchange",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "^TLS_RSA_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-050",
+      "title": "Cipher faible détecté: anon cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_anon_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-051",
+      "title": "Cipher faible détecté: NULL cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "NULL",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-052",
+      "title": "Cipher faible détecté: EXPORT cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "EXPORT",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-053",
+      "title": "Cipher faible détecté: RC4 cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "RC4",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-054",
+      "title": "Cipher faible détecté: DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "\\bDES\\b",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-055",
+      "title": "Cipher faible détecté: 3DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "3DES",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-056",
+      "title": "Cipher faible détecté: MD5 in cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "MD5",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-057",
+      "title": "Cipher faible détecté: SHA1 in cipher",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "SHA1",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-058",
+      "title": "Cipher faible détecté: CBC mode (legacy)",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_CBC_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-059",
+      "title": "Cipher faible détecté: RSA key exchange",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "^TLS_RSA_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-060",
+      "title": "Cipher faible détecté: anon cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_anon_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-061",
+      "title": "Cipher faible détecté: NULL cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "NULL",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-062",
+      "title": "Cipher faible détecté: EXPORT cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "EXPORT",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-063",
+      "title": "Cipher faible détecté: RC4 cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "RC4",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-064",
+      "title": "Cipher faible détecté: DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "\\bDES\\b",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-065",
+      "title": "Cipher faible détecté: 3DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "3DES",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-066",
+      "title": "Cipher faible détecté: MD5 in cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "MD5",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-067",
+      "title": "Cipher faible détecté: SHA1 in cipher",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "SHA1",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-068",
+      "title": "Cipher faible détecté: CBC mode (legacy)",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_CBC_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-069",
+      "title": "Cipher faible détecté: RSA key exchange",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "^TLS_RSA_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-070",
+      "title": "Cipher faible détecté: anon cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_anon_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-071",
+      "title": "Cipher faible détecté: NULL cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "NULL",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-072",
+      "title": "Cipher faible détecté: EXPORT cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "EXPORT",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-073",
+      "title": "Cipher faible détecté: RC4 cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "RC4",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-074",
+      "title": "Cipher faible détecté: DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "\\bDES\\b",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-075",
+      "title": "Cipher faible détecté: 3DES cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "3DES",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-076",
+      "title": "Cipher faible détecté: MD5 in cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "MD5",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-077",
+      "title": "Cipher faible détecté: SHA1 in cipher",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "SHA1",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-078",
+      "title": "Cipher faible détecté: CBC mode (legacy)",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_CBC_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-079",
+      "title": "Cipher faible détecté: RSA key exchange",
+      "severity": "MEDIUM",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "^TLS_RSA_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    },
+    {
+      "id": "NI-TLS-C-080",
+      "title": "Cipher faible détecté: anon cipher",
+      "severity": "HIGH",
+      "type": "TLS_CIPHER_REGEX",
+      "regex": "_anon_",
+      "recommendation": "Configurer le serveur pour suites modernes (ECDHE + AES-GCM/CHACHA20, TLS1.2/1.3)."
+    }
+  ]
+}

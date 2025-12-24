@@ -1,0 +1,1004 @@
+{
+  "rules": [
+    {
+      "id": "NI-LEAK-SEC-001",
+      "title": "Secret possible détecté: AWS Access Key ID",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bAKIA[0-9A-Z]{16}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-002",
+      "title": "Secret possible détecté: AWS Secret Key (heuristique)",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b(?i)aws(.{0,20})?(secret|access).{0,20}['\\\"][A-Za-z0-9/+=]{40}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-003",
+      "title": "Secret possible détecté: Google API Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\bAIza[0-9A-Za-z\\-_]{35}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-004",
+      "title": "Secret possible détecté: Firebase Server Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\bAAAA[A-Za-z0-9\\-_]{7}:[A-Za-z0-9\\-_]{140}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-005",
+      "title": "Secret possible détecté: Slack Token",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bxox[baprs]-[0-9A-Za-z-]{10,48}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-006",
+      "title": "Secret possible détecté: GitHub Token",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\bgh[pousr]_[A-Za-z0-9]{36,255}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-007",
+      "title": "Secret possible détecté: Stripe Secret Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\bsk_(live|test)_[0-9a-zA-Z]{20,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-008",
+      "title": "Secret possible détecté: SendGrid API Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\bSG\\.[A-Za-z0-9_\\-]{10,}\\.[A-Za-z0-9_\\-]{10,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-009",
+      "title": "Secret possible détecté: Twilio API Key (SK)",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bSK[0-9a-fA-F]{32}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-010",
+      "title": "Secret possible détecté: JWT (header.payload.signature)",
+      "severity": "MEDIUM",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\beyJ[A-Za-z0-9_\\-]+=*\\.[A-Za-z0-9_\\-]+=*\\.[A-Za-z0-9_\\-+/=]*\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-011",
+      "title": "Secret possible détecté: Private Key Block",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "-----BEGIN (RSA|EC|OPENSSH|DSA) PRIVATE KEY-----",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-012",
+      "title": "Secret possible détecté: Bearer token in header",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "(?i)\\bAuthorization:\\s*Bearer\\s+[A-Za-z0-9\\-\\._~\\+\\/]+=*\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-013",
+      "title": "Secret possible détecté: Basic auth header",
+      "severity": "MEDIUM",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "(?i)\\bAuthorization:\\s*Basic\\s+[A-Za-z0-9+/=]{8,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-014",
+      "title": "Secret possible détecté: Generic api_key param",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "(?i)\\b(api[_-]?key|apikey|x-api-key)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{8,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-015",
+      "title": "Secret possible détecté: Generic token param",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "(?i)\\b(token|access[_-]?token|refresh[_-]?token)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{8,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-016",
+      "title": "Secret possible détecté: Hardcoded password",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "(?i)\\b(password|passwd|pwd)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{6,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-017",
+      "title": "Secret possible détecté: AWS Access Key ID",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bAKIA[0-9A-Z]{16}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-018",
+      "title": "Secret possible détecté: AWS Secret Key (heuristique)",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b(?i)aws(.{0,20})?(secret|access).{0,20}['\\\"][A-Za-z0-9/+=]{40}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-019",
+      "title": "Secret possible détecté: Google API Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\bAIza[0-9A-Za-z\\-_]{35}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-020",
+      "title": "Secret possible détecté: Firebase Server Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\bAAAA[A-Za-z0-9\\-_]{7}:[A-Za-z0-9\\-_]{140}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-021",
+      "title": "Secret possible détecté: Slack Token",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bxox[baprs]-[0-9A-Za-z-]{10,48}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-022",
+      "title": "Secret possible détecté: GitHub Token",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\bgh[pousr]_[A-Za-z0-9]{36,255}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-023",
+      "title": "Secret possible détecté: Stripe Secret Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\bsk_(live|test)_[0-9a-zA-Z]{20,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-024",
+      "title": "Secret possible détecté: SendGrid API Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\bSG\\.[A-Za-z0-9_\\-]{10,}\\.[A-Za-z0-9_\\-]{10,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-025",
+      "title": "Secret possible détecté: Twilio API Key (SK)",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bSK[0-9a-fA-F]{32}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-026",
+      "title": "Secret possible détecté: JWT (header.payload.signature)",
+      "severity": "MEDIUM",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\beyJ[A-Za-z0-9_\\-]+=*\\.[A-Za-z0-9_\\-]+=*\\.[A-Za-z0-9_\\-+/=]*\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-027",
+      "title": "Secret possible détecté: Private Key Block",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "-----BEGIN (RSA|EC|OPENSSH|DSA) PRIVATE KEY-----",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-028",
+      "title": "Secret possible détecté: Bearer token in header",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "(?i)\\bAuthorization:\\s*Bearer\\s+[A-Za-z0-9\\-\\._~\\+\\/]+=*\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-029",
+      "title": "Secret possible détecté: Basic auth header",
+      "severity": "MEDIUM",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "(?i)\\bAuthorization:\\s*Basic\\s+[A-Za-z0-9+/=]{8,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-030",
+      "title": "Secret possible détecté: Generic api_key param",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "(?i)\\b(api[_-]?key|apikey|x-api-key)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{8,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-031",
+      "title": "Secret possible détecté: Generic token param",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "(?i)\\b(token|access[_-]?token|refresh[_-]?token)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{8,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-032",
+      "title": "Secret possible détecté: Hardcoded password",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "(?i)\\b(password|passwd|pwd)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{6,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-033",
+      "title": "Secret possible détecté: AWS Access Key ID",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bAKIA[0-9A-Z]{16}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-034",
+      "title": "Secret possible détecté: AWS Secret Key (heuristique)",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b(?i)aws(.{0,20})?(secret|access).{0,20}['\\\"][A-Za-z0-9/+=]{40}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-035",
+      "title": "Secret possible détecté: Google API Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\bAIza[0-9A-Za-z\\-_]{35}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-036",
+      "title": "Secret possible détecté: Firebase Server Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\bAAAA[A-Za-z0-9\\-_]{7}:[A-Za-z0-9\\-_]{140}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-037",
+      "title": "Secret possible détecté: Slack Token",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bxox[baprs]-[0-9A-Za-z-]{10,48}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-038",
+      "title": "Secret possible détecté: GitHub Token",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\bgh[pousr]_[A-Za-z0-9]{36,255}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-039",
+      "title": "Secret possible détecté: Stripe Secret Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\bsk_(live|test)_[0-9a-zA-Z]{20,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-040",
+      "title": "Secret possible détecté: SendGrid API Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\bSG\\.[A-Za-z0-9_\\-]{10,}\\.[A-Za-z0-9_\\-]{10,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-041",
+      "title": "Secret possible détecté: Twilio API Key (SK)",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bSK[0-9a-fA-F]{32}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-042",
+      "title": "Secret possible détecté: JWT (header.payload.signature)",
+      "severity": "MEDIUM",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\beyJ[A-Za-z0-9_\\-]+=*\\.[A-Za-z0-9_\\-]+=*\\.[A-Za-z0-9_\\-+/=]*\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-043",
+      "title": "Secret possible détecté: Private Key Block",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "-----BEGIN (RSA|EC|OPENSSH|DSA) PRIVATE KEY-----",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-044",
+      "title": "Secret possible détecté: Bearer token in header",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "(?i)\\bAuthorization:\\s*Bearer\\s+[A-Za-z0-9\\-\\._~\\+\\/]+=*\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-045",
+      "title": "Secret possible détecté: Basic auth header",
+      "severity": "MEDIUM",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "(?i)\\bAuthorization:\\s*Basic\\s+[A-Za-z0-9+/=]{8,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-046",
+      "title": "Secret possible détecté: Generic api_key param",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "(?i)\\b(api[_-]?key|apikey|x-api-key)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{8,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-047",
+      "title": "Secret possible détecté: Generic token param",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "(?i)\\b(token|access[_-]?token|refresh[_-]?token)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{8,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-048",
+      "title": "Secret possible détecté: Hardcoded password",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "(?i)\\b(password|passwd|pwd)\\s*[:=]\\s*['\\\"][^'\\\"\\s]{6,}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-049",
+      "title": "Secret possible détecté: AWS Access Key ID",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bAKIA[0-9A-Z]{16}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-050",
+      "title": "Secret possible détecté: AWS Secret Key (heuristique)",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b(?i)aws(.{0,20})?(secret|access).{0,20}['\\\"][A-Za-z0-9/+=]{40}['\\\"]",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-051",
+      "title": "Secret possible détecté: Google API Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\bAIza[0-9A-Za-z\\-_]{35}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-052",
+      "title": "Secret possible détecté: Firebase Server Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\bAAAA[A-Za-z0-9\\-_]{7}:[A-Za-z0-9\\-_]{140}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-053",
+      "title": "Secret possible détecté: Slack Token",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bxox[baprs]-[0-9A-Za-z-]{10,48}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-054",
+      "title": "Secret possible détecté: GitHub Token",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\bgh[pousr]_[A-Za-z0-9]{36,255}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-055",
+      "title": "Secret possible détecté: Stripe Secret Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\bsk_(live|test)_[0-9a-zA-Z]{20,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-056",
+      "title": "Secret possible détecté: SendGrid API Key",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\bSG\\.[A-Za-z0-9_\\-]{10,}\\.[A-Za-z0-9_\\-]{10,}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-057",
+      "title": "Secret possible détecté: Twilio API Key (SK)",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\bSK[0-9a-fA-F]{32}\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-058",
+      "title": "Secret possible détecté: JWT (header.payload.signature)",
+      "severity": "MEDIUM",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\beyJ[A-Za-z0-9_\\-]+=*\\.[A-Za-z0-9_\\-]+=*\\.[A-Za-z0-9_\\-+/=]*\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-059",
+      "title": "Secret possible détecté: Private Key Block",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "-----BEGIN (RSA|EC|OPENSSH|DSA) PRIVATE KEY-----",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-SEC-060",
+      "title": "Secret possible détecté: Bearer token in header",
+      "severity": "HIGH",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "(?i)\\bAuthorization:\\s*Bearer\\s+[A-Za-z0-9\\-\\._~\\+\\/]+=*\\b",
+      "recommendation": "Supprimer les secrets du code/traffic. Utiliser un vault + rotation + redaction logs.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-001",
+      "title": "Donnée sensible possible: Email address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-002",
+      "title": "Donnée sensible possible: Phone number (intl)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b\\+?[0-9]{1,3}[\\s\\-]?\\(?[0-9]{2,4}\\)?[\\s\\-]?[0-9]{3,4}[\\s\\-]?[0-9]{3,4}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-003",
+      "title": "Donnée sensible possible: IPv4 address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-004",
+      "title": "Donnée sensible possible: IBAN (generic)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-005",
+      "title": "Donnée sensible possible: Credit card (loose)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-006",
+      "title": "Donnée sensible possible: Email address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-007",
+      "title": "Donnée sensible possible: Phone number (intl)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b\\+?[0-9]{1,3}[\\s\\-]?\\(?[0-9]{2,4}\\)?[\\s\\-]?[0-9]{3,4}[\\s\\-]?[0-9]{3,4}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-008",
+      "title": "Donnée sensible possible: IPv4 address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-009",
+      "title": "Donnée sensible possible: IBAN (generic)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-010",
+      "title": "Donnée sensible possible: Credit card (loose)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-011",
+      "title": "Donnée sensible possible: Email address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-012",
+      "title": "Donnée sensible possible: Phone number (intl)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b\\+?[0-9]{1,3}[\\s\\-]?\\(?[0-9]{2,4}\\)?[\\s\\-]?[0-9]{3,4}[\\s\\-]?[0-9]{3,4}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-013",
+      "title": "Donnée sensible possible: IPv4 address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-014",
+      "title": "Donnée sensible possible: IBAN (generic)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-015",
+      "title": "Donnée sensible possible: Credit card (loose)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-016",
+      "title": "Donnée sensible possible: Email address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-017",
+      "title": "Donnée sensible possible: Phone number (intl)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b\\+?[0-9]{1,3}[\\s\\-]?\\(?[0-9]{2,4}\\)?[\\s\\-]?[0-9]{3,4}[\\s\\-]?[0-9]{3,4}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-018",
+      "title": "Donnée sensible possible: IPv4 address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-019",
+      "title": "Donnée sensible possible: IBAN (generic)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-020",
+      "title": "Donnée sensible possible: Credit card (loose)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-021",
+      "title": "Donnée sensible possible: Email address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-022",
+      "title": "Donnée sensible possible: Phone number (intl)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b\\+?[0-9]{1,3}[\\s\\-]?\\(?[0-9]{2,4}\\)?[\\s\\-]?[0-9]{3,4}[\\s\\-]?[0-9]{3,4}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-023",
+      "title": "Donnée sensible possible: IPv4 address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-024",
+      "title": "Donnée sensible possible: IBAN (generic)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-025",
+      "title": "Donnée sensible possible: Credit card (loose)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-026",
+      "title": "Donnée sensible possible: Email address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-027",
+      "title": "Donnée sensible possible: Phone number (intl)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b\\+?[0-9]{1,3}[\\s\\-]?\\(?[0-9]{2,4}\\)?[\\s\\-]?[0-9]{3,4}[\\s\\-]?[0-9]{3,4}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-028",
+      "title": "Donnée sensible possible: IPv4 address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-029",
+      "title": "Donnée sensible possible: IBAN (generic)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-030",
+      "title": "Donnée sensible possible: Credit card (loose)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-031",
+      "title": "Donnée sensible possible: Email address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-032",
+      "title": "Donnée sensible possible: Phone number (intl)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b\\+?[0-9]{1,3}[\\s\\-]?\\(?[0-9]{2,4}\\)?[\\s\\-]?[0-9]{3,4}[\\s\\-]?[0-9]{3,4}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-033",
+      "title": "Donnée sensible possible: IPv4 address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-034",
+      "title": "Donnée sensible possible: IBAN (generic)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-035",
+      "title": "Donnée sensible possible: Credit card (loose)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-036",
+      "title": "Donnée sensible possible: Email address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-037",
+      "title": "Donnée sensible possible: Phone number (intl)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "url",
+      "regex": "\\b\\+?[0-9]{1,3}[\\s\\-]?\\(?[0-9]{2,4}\\)?[\\s\\-]?[0-9]{3,4}[\\s\\-]?[0-9]{3,4}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-038",
+      "title": "Donnée sensible possible: IPv4 address",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "headers",
+      "regex": "\\b(?:(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1?\\d?\\d)\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-039",
+      "title": "Donnée sensible possible: IBAN (generic)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "body",
+      "regex": "\\b[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    },
+    {
+      "id": "NI-LEAK-PII-040",
+      "title": "Donnée sensible possible: Credit card (loose)",
+      "severity": "LOW",
+      "type": "REGEX",
+      "scope": "any",
+      "regex": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "recommendation": "Éviter d'exposer PII dans URLs/logs. Chiffrer en transit. Masquer/redacter.",
+      "redact": true
+    }
+  ]
+}

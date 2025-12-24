@@ -1,0 +1,803 @@
+{
+  "rules": [
+    {
+      "id": "NI-HDR-MISS-001",
+      "title": "Header manquant: Strict-Transport-Security",
+      "severity": "MEDIUM",
+      "type": "MISSING_HEADER",
+      "header": "Strict-Transport-Security",
+      "recommendation": "Forcer HSTS (ex: max-age=15552000; includeSubDomains; preload)."
+    },
+    {
+      "id": "NI-HDR-MISS-002",
+      "title": "Header manquant: X-Content-Type-Options",
+      "severity": "MEDIUM",
+      "type": "MISSING_HEADER",
+      "header": "X-Content-Type-Options",
+      "recommendation": "Ajouter X-Content-Type-Options: nosniff."
+    },
+    {
+      "id": "NI-HDR-MISS-003",
+      "title": "Header manquant: X-Frame-Options",
+      "severity": "MEDIUM",
+      "type": "MISSING_HEADER",
+      "header": "X-Frame-Options",
+      "recommendation": "Ajouter X-Frame-Options: DENY ou SAMEORIGIN."
+    },
+    {
+      "id": "NI-HDR-MISS-004",
+      "title": "Header manquant: Content-Security-Policy",
+      "severity": "MEDIUM",
+      "type": "MISSING_HEADER",
+      "header": "Content-Security-Policy",
+      "recommendation": "Ajouter une CSP adaptée (au minimum frame-ancestors, object-src)."
+    },
+    {
+      "id": "NI-HDR-MISS-005",
+      "title": "Header manquant: Referrer-Policy",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Referrer-Policy",
+      "recommendation": "Ajouter Referrer-Policy: strict-origin-when-cross-origin (ou plus strict)."
+    },
+    {
+      "id": "NI-HDR-MISS-006",
+      "title": "Header manquant: Permissions-Policy",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Permissions-Policy",
+      "recommendation": "Ajouter Permissions-Policy pour limiter capteurs/APIs."
+    },
+    {
+      "id": "NI-HDR-MISS-007",
+      "title": "Header manquant: Cross-Origin-Opener-Policy",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Cross-Origin-Opener-Policy",
+      "recommendation": "Ajouter COOP: same-origin (si possible)."
+    },
+    {
+      "id": "NI-HDR-MISS-008",
+      "title": "Header manquant: Cross-Origin-Embedder-Policy",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Cross-Origin-Embedder-Policy",
+      "recommendation": "Ajouter COEP: require-corp (si compatible)."
+    },
+    {
+      "id": "NI-HDR-MISS-009",
+      "title": "Header manquant: Cross-Origin-Resource-Policy",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Cross-Origin-Resource-Policy",
+      "recommendation": "Ajouter CORP: same-origin (si pertinent)."
+    },
+    {
+      "id": "NI-HDR-MISS-010",
+      "title": "Header manquant: Cache-Control",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Cache-Control",
+      "recommendation": "Définir Cache-Control adapté (surtout pour réponses sensibles)."
+    },
+    {
+      "id": "NI-HDR-MISS-011",
+      "title": "Header manquant: Pragma",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Pragma",
+      "recommendation": "Pour legacy caches, ajouter Pragma: no-cache si contenu sensible."
+    },
+    {
+      "id": "NI-HDR-MISS-012",
+      "title": "Header manquant: Expires",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Expires",
+      "recommendation": "Pour contenu sensible, Expires: 0 (ou passé) + Cache-Control no-store."
+    },
+    {
+      "id": "NI-HDR-MISS-013",
+      "title": "Header manquant: X-Permitted-Cross-Domain-Policies",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "X-Permitted-Cross-Domain-Policies",
+      "recommendation": "Ajouter X-Permitted-Cross-Domain-Policies: none."
+    },
+    {
+      "id": "NI-HDR-MISS-014",
+      "title": "Header manquant: X-Download-Options",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "X-Download-Options",
+      "recommendation": "Ajouter X-Download-Options: noopen (IE legacy)."
+    },
+    {
+      "id": "NI-HDR-MISS-015",
+      "title": "Header manquant: X-DNS-Prefetch-Control",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "X-DNS-Prefetch-Control",
+      "recommendation": "Ajouter X-DNS-Prefetch-Control: off."
+    },
+    {
+      "id": "NI-HDR-MISS-016",
+      "title": "Header manquant: Expect-CT",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Expect-CT",
+      "recommendation": "Optionnel (deprecated sur certains stacks) : surveiller CT."
+    },
+    {
+      "id": "NI-HDR-MISS-017",
+      "title": "Header manquant: Content-Type",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Content-Type",
+      "recommendation": "Vérifier Content-Type correct et cohérent."
+    },
+    {
+      "id": "NI-HDR-MISS-018",
+      "title": "Header manquant: X-Robots-Tag",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "X-Robots-Tag",
+      "recommendation": "Optionnel : empêcher indexation si pages sensibles."
+    },
+    {
+      "id": "NI-HDR-MISS-019",
+      "title": "Header manquant: X-RateLimit-Limit",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "X-RateLimit-Limit",
+      "recommendation": "Optionnel : rate-limit headers (observabilité)."
+    },
+    {
+      "id": "NI-HDR-MISS-020",
+      "title": "Header manquant: X-RateLimit-Remaining",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "X-RateLimit-Remaining",
+      "recommendation": "Optionnel : rate-limit headers (observabilité)."
+    },
+    {
+      "id": "NI-HDR-MISS-021",
+      "title": "Header manquant: X-RateLimit-Reset",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "X-RateLimit-Reset",
+      "recommendation": "Optionnel : rate-limit headers (observabilité)."
+    },
+    {
+      "id": "NI-HDR-MISS-022",
+      "title": "Header manquant: Clear-Site-Data",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Clear-Site-Data",
+      "recommendation": "Optionnel : Clear-Site-Data pour logout sécurité."
+    },
+    {
+      "id": "NI-HDR-MISS-023",
+      "title": "Header manquant: NEL",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "NEL",
+      "recommendation": "Optionnel : Network Error Logging."
+    },
+    {
+      "id": "NI-HDR-MISS-024",
+      "title": "Header manquant: Report-To",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Report-To",
+      "recommendation": "Optionnel : reporting CSP/NEL."
+    },
+    {
+      "id": "NI-HDR-MISS-025",
+      "title": "Header manquant: Server",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Server",
+      "recommendation": "Idéalement masquer/neutraliser le header Server."
+    },
+    {
+      "id": "NI-HDR-MISS-026",
+      "title": "Header manquant: X-Powered-By",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "X-Powered-By",
+      "recommendation": "Supprimer X-Powered-By (réduit fingerprint)."
+    },
+    {
+      "id": "NI-HDR-MISS-027",
+      "title": "Header manquant: Via",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Via",
+      "recommendation": "Supprimer Via si inutile (fingerprint proxy)."
+    },
+    {
+      "id": "NI-HDR-MISS-028",
+      "title": "Header manquant: Alt-Svc",
+      "severity": "LOW",
+      "type": "MISSING_HEADER",
+      "header": "Alt-Svc",
+      "recommendation": "Vérifier Alt-Svc (HTTP/3) si exposé, pas critique."
+    },
+    {
+      "id": "NI-HDR-MISS-029",
+      "title": "Header manquant: Access-Control-Allow-Origin",
+      "severity": "MEDIUM",
+      "type": "MISSING_HEADER",
+      "header": "Access-Control-Allow-Origin",
+      "recommendation": "Vérifier CORS, éviter * sur endpoints sensibles."
+    },
+    {
+      "id": "NI-HDR-MISS-030",
+      "title": "Header manquant: Access-Control-Allow-Credentials",
+      "severity": "MEDIUM",
+      "type": "MISSING_HEADER",
+      "header": "Access-Control-Allow-Credentials",
+      "recommendation": "Vérifier CORS credentials."
+    },
+    {
+      "id": "NI-HDR-VAL-001",
+      "title": "HSTS max-age trop faible",
+      "severity": "MEDIUM",
+      "type": "HEADER_REGEX",
+      "header": "Strict-Transport-Security",
+      "regex": "max-age\\s*=\\s*(\\d+)",
+      "recommendation": "Augmenter max-age (ex: 15552000 = 180j) + includeSubDomains si possible.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-002",
+      "title": "CSP contient unsafe-inline",
+      "severity": "MEDIUM",
+      "type": "HEADER_REGEX",
+      "header": "Content-Security-Policy",
+      "regex": "unsafe-inline",
+      "recommendation": "Éviter unsafe-inline. Utiliser nonces/hashes et durcir directives.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-003",
+      "title": "CSP contient unsafe-eval",
+      "severity": "MEDIUM",
+      "type": "HEADER_REGEX",
+      "header": "Content-Security-Policy",
+      "regex": "unsafe-eval",
+      "recommendation": "Éviter unsafe-eval. Revoir frameworks/scripts.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-004",
+      "title": "X-Content-Type-Options ≠ nosniff",
+      "severity": "LOW",
+      "type": "HEADER_REGEX",
+      "header": "X-Content-Type-Options",
+      "regex": "^(?!nosniff$)",
+      "recommendation": "Mettre X-Content-Type-Options: nosniff.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-005",
+      "title": "X-Frame-Options valeur faible",
+      "severity": "MEDIUM",
+      "type": "HEADER_REGEX",
+      "header": "X-Frame-Options",
+      "regex": "^(?!DENY$|SAMEORIGIN$)",
+      "recommendation": "Utiliser DENY ou SAMEORIGIN.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-006",
+      "title": "Referrer-Policy trop permissive",
+      "severity": "LOW",
+      "type": "HEADER_REGEX",
+      "header": "Referrer-Policy",
+      "regex": "^(unsafe-url|no-referrer-when-downgrade)$",
+      "recommendation": "Préférer strict-origin-when-cross-origin ou no-referrer.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-007",
+      "title": "Permissions-Policy trop permissive",
+      "severity": "LOW",
+      "type": "HEADER_REGEX",
+      "header": "Permissions-Policy",
+      "regex": "=\\*",
+      "recommendation": "Limiter les features et origines explicitement.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-008",
+      "title": "Cache-Control public sur contenu potentiellement sensible",
+      "severity": "LOW",
+      "type": "HEADER_REGEX",
+      "header": "Cache-Control",
+      "regex": "public",
+      "recommendation": "Pour données sensibles: no-store, private, max-age=0.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-009",
+      "title": "Cache-Control no-store détecté (bon signe)",
+      "severity": "LOW",
+      "type": "HEADER_REGEX",
+      "header": "Cache-Control",
+      "regex": "no-store",
+      "recommendation": "OK (info).",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-010",
+      "title": "CORS: ACAO = *",
+      "severity": "MEDIUM",
+      "type": "HEADER_REGEX",
+      "header": "Access-Control-Allow-Origin",
+      "regex": "^\\*$",
+      "recommendation": "Éviter * sur endpoints authentifiés; utiliser liste d'origines contrôlées.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-011",
+      "title": "CORS: credentials activé",
+      "severity": "MEDIUM",
+      "type": "HEADER_REGEX",
+      "header": "Access-Control-Allow-Credentials",
+      "regex": "true",
+      "recommendation": "Si credentials=true, ACAO ne doit pas être *; contrôler origines.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-012",
+      "title": "Header Server présent (fingerprint)",
+      "severity": "LOW",
+      "type": "HEADER_REGEX",
+      "header": "Server",
+      "regex": ".+",
+      "recommendation": "Masquer/neutraliser Server (reverse proxy).",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-VAL-013",
+      "title": "X-Powered-By présent (fingerprint)",
+      "severity": "LOW",
+      "type": "HEADER_REGEX",
+      "header": "X-Powered-By",
+      "regex": ".+",
+      "recommendation": "Supprimer X-Powered-By.",
+      "mode": "MATCH"
+    },
+    {
+      "id": "NI-HDR-CK-001",
+      "title": "Cookie sans attribut Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "Secure",
+      "recommendation": "Ajouter Secure sur cookies sensibles."
+    },
+    {
+      "id": "NI-HDR-CK-002",
+      "title": "Cookie sans attribut HttpOnly",
+      "severity": "MEDIUM",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "HttpOnly",
+      "recommendation": "Ajouter HttpOnly pour limiter XSS cookie theft."
+    },
+    {
+      "id": "NI-HDR-CK-003",
+      "title": "Cookie sans SameSite",
+      "severity": "LOW",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite",
+      "recommendation": "Ajouter SameSite=Lax ou Strict selon usage."
+    },
+    {
+      "id": "NI-HDR-CK-004",
+      "title": "Cookie SameSite=None sans Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite=None",
+      "recommendation": "Si SameSite=None alors Secure est obligatoire."
+    },
+    {
+      "id": "NI-HDR-CK-005",
+      "title": "Cookie sans attribut Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "Secure",
+      "recommendation": "Ajouter Secure sur cookies sensibles."
+    },
+    {
+      "id": "NI-HDR-CK-006",
+      "title": "Cookie sans attribut HttpOnly",
+      "severity": "MEDIUM",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "HttpOnly",
+      "recommendation": "Ajouter HttpOnly pour limiter XSS cookie theft."
+    },
+    {
+      "id": "NI-HDR-CK-007",
+      "title": "Cookie sans SameSite",
+      "severity": "LOW",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite",
+      "recommendation": "Ajouter SameSite=Lax ou Strict selon usage."
+    },
+    {
+      "id": "NI-HDR-CK-008",
+      "title": "Cookie SameSite=None sans Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite=None",
+      "recommendation": "Si SameSite=None alors Secure est obligatoire."
+    },
+    {
+      "id": "NI-HDR-CK-009",
+      "title": "Cookie sans attribut Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "Secure",
+      "recommendation": "Ajouter Secure sur cookies sensibles."
+    },
+    {
+      "id": "NI-HDR-CK-010",
+      "title": "Cookie sans attribut HttpOnly",
+      "severity": "MEDIUM",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "HttpOnly",
+      "recommendation": "Ajouter HttpOnly pour limiter XSS cookie theft."
+    },
+    {
+      "id": "NI-HDR-CK-011",
+      "title": "Cookie sans SameSite",
+      "severity": "LOW",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite",
+      "recommendation": "Ajouter SameSite=Lax ou Strict selon usage."
+    },
+    {
+      "id": "NI-HDR-CK-012",
+      "title": "Cookie SameSite=None sans Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite=None",
+      "recommendation": "Si SameSite=None alors Secure est obligatoire."
+    },
+    {
+      "id": "NI-HDR-CK-013",
+      "title": "Cookie sans attribut Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "Secure",
+      "recommendation": "Ajouter Secure sur cookies sensibles."
+    },
+    {
+      "id": "NI-HDR-CK-014",
+      "title": "Cookie sans attribut HttpOnly",
+      "severity": "MEDIUM",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "HttpOnly",
+      "recommendation": "Ajouter HttpOnly pour limiter XSS cookie theft."
+    },
+    {
+      "id": "NI-HDR-CK-015",
+      "title": "Cookie sans SameSite",
+      "severity": "LOW",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite",
+      "recommendation": "Ajouter SameSite=Lax ou Strict selon usage."
+    },
+    {
+      "id": "NI-HDR-CK-016",
+      "title": "Cookie SameSite=None sans Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite=None",
+      "recommendation": "Si SameSite=None alors Secure est obligatoire."
+    },
+    {
+      "id": "NI-HDR-CK-017",
+      "title": "Cookie sans attribut Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "Secure",
+      "recommendation": "Ajouter Secure sur cookies sensibles."
+    },
+    {
+      "id": "NI-HDR-CK-018",
+      "title": "Cookie sans attribut HttpOnly",
+      "severity": "MEDIUM",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "HttpOnly",
+      "recommendation": "Ajouter HttpOnly pour limiter XSS cookie theft."
+    },
+    {
+      "id": "NI-HDR-CK-019",
+      "title": "Cookie sans SameSite",
+      "severity": "LOW",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite",
+      "recommendation": "Ajouter SameSite=Lax ou Strict selon usage."
+    },
+    {
+      "id": "NI-HDR-CK-020",
+      "title": "Cookie SameSite=None sans Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite=None",
+      "recommendation": "Si SameSite=None alors Secure est obligatoire."
+    },
+    {
+      "id": "NI-HDR-CK-021",
+      "title": "Cookie sans attribut Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "Secure",
+      "recommendation": "Ajouter Secure sur cookies sensibles."
+    },
+    {
+      "id": "NI-HDR-CK-022",
+      "title": "Cookie sans attribut HttpOnly",
+      "severity": "MEDIUM",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "HttpOnly",
+      "recommendation": "Ajouter HttpOnly pour limiter XSS cookie theft."
+    },
+    {
+      "id": "NI-HDR-CK-023",
+      "title": "Cookie sans SameSite",
+      "severity": "LOW",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite",
+      "recommendation": "Ajouter SameSite=Lax ou Strict selon usage."
+    },
+    {
+      "id": "NI-HDR-CK-024",
+      "title": "Cookie SameSite=None sans Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite=None",
+      "recommendation": "Si SameSite=None alors Secure est obligatoire."
+    },
+    {
+      "id": "NI-HDR-CK-025",
+      "title": "Cookie sans attribut Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "Secure",
+      "recommendation": "Ajouter Secure sur cookies sensibles."
+    },
+    {
+      "id": "NI-HDR-CK-026",
+      "title": "Cookie sans attribut HttpOnly",
+      "severity": "MEDIUM",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "HttpOnly",
+      "recommendation": "Ajouter HttpOnly pour limiter XSS cookie theft."
+    },
+    {
+      "id": "NI-HDR-CK-027",
+      "title": "Cookie sans SameSite",
+      "severity": "LOW",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite",
+      "recommendation": "Ajouter SameSite=Lax ou Strict selon usage."
+    },
+    {
+      "id": "NI-HDR-CK-028",
+      "title": "Cookie SameSite=None sans Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "SameSite=None",
+      "recommendation": "Si SameSite=None alors Secure est obligatoire."
+    },
+    {
+      "id": "NI-HDR-CK-029",
+      "title": "Cookie sans attribut Secure",
+      "severity": "HIGH",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "Secure",
+      "recommendation": "Ajouter Secure sur cookies sensibles."
+    },
+    {
+      "id": "NI-HDR-CK-030",
+      "title": "Cookie sans attribut HttpOnly",
+      "severity": "MEDIUM",
+      "type": "SET_COOKIE_CHECK",
+      "cookie_attribute": "HttpOnly",
+      "recommendation": "Ajouter HttpOnly pour limiter XSS cookie theft."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-074",
+      "title": "Règle header personnalisée #74",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-075",
+      "title": "Règle header personnalisée #75",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-076",
+      "title": "Règle header personnalisée #76",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-077",
+      "title": "Règle header personnalisée #77",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-078",
+      "title": "Règle header personnalisée #78",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-079",
+      "title": "Règle header personnalisée #79",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-080",
+      "title": "Règle header personnalisée #80",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-081",
+      "title": "Règle header personnalisée #81",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-082",
+      "title": "Règle header personnalisée #82",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-083",
+      "title": "Règle header personnalisée #83",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-084",
+      "title": "Règle header personnalisée #84",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-085",
+      "title": "Règle header personnalisée #85",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-086",
+      "title": "Règle header personnalisée #86",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-087",
+      "title": "Règle header personnalisée #87",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-088",
+      "title": "Règle header personnalisée #88",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-089",
+      "title": "Règle header personnalisée #89",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-090",
+      "title": "Règle header personnalisée #90",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-091",
+      "title": "Règle header personnalisée #91",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-092",
+      "title": "Règle header personnalisée #92",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-093",
+      "title": "Règle header personnalisée #93",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-094",
+      "title": "Règle header personnalisée #94",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-095",
+      "title": "Règle header personnalisée #95",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-096",
+      "title": "Règle header personnalisée #96",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-097",
+      "title": "Règle header personnalisée #97",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-098",
+      "title": "Règle header personnalisée #98",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-099",
+      "title": "Règle header personnalisée #99",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    },
+    {
+      "id": "NI-HDR-CUSTOM-100",
+      "title": "Règle header personnalisée #100",
+      "severity": "LOW",
+      "type": "CUSTOM",
+      "recommendation": "Compléter cette règle selon tes besoins."
+    }
+  ]
+}

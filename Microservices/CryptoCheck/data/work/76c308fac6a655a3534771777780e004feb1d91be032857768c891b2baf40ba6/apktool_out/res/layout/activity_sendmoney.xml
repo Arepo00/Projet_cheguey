@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/shadow" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:id="@id/imageView" android:layout_width="89.0dip" android:layout_height="61.0dip" android:layout_marginLeft="150.0dip" android:layout_marginTop="200.0dip" app:srcCompat="@drawable/person" />
+    <TextView android:textSize="22.0sp" android:textStyle="bold" android:id="@id/actid" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="155.0dip" android:layout_below="@id/imageView" />
+    <EditText android:textSize="15.0sp" android:textStyle="bold" android:id="@id/edact" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="100.0dip" android:layout_marginTop="0.0dip" android:hint="Enter Account Number Again" android:layout_below="@id/actid" android:inputType="numberDecimal" />
+    <EditText android:textSize="18.0sp" android:textStyle="bold" android:id="@id/edamt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="140.0dip" android:layout_marginTop="12.0dip" android:hint="Enter Amount" android:layout_below="@id/edact" android:inputType="numberDecimal" />
+    <Button android:textColor="@color/white" android:id="@id/sendbutton" android:background="@drawable/circle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="155.0dip" android:layout_marginTop="12.0dip" android:text="Send Money" android:layout_below="@id/edamt" android:onClick="Biometrics" />
+</RelativeLayout>

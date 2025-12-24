@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:background="@drawable/bg_circle" android:layout_width="84.0dip" android:layout_height="84.0dip" android:layout_marginTop="60.0dip">
+        <ImageView android:id="@id/iv_lock" android:layout_width="32.0dip" android:layout_height="32.0dip" android:layout_centerInParent="true" app:srcCompat="@drawable/lock" />
+        <ImageView android:id="@id/iv_ok" android:layout_width="32.0dip" android:layout_height="32.0dip" android:tint="#ff66e75d" android:layout_centerInParent="true" android:alpha="0.0" android:scaleX="0.0" android:scaleY="0.0" app:srcCompat="@drawable/ic_check_bold_24dp" />
+    </RelativeLayout>
+    <TextView android:textSize="16.0sp" android:textColor="#ffffffff" android:layout_gravity="center_horizontal" android:id="@id/tv_input_tip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16.0dip" android:letterSpacing="0.02" />
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="18.0dip" android:layout_marginTop="32.0dip">
+        <View android:id="@id/cursor" android:background="#ffffffff" android:visibility="invisible" android:layout_width="2.0dip" android:layout_height="fill_parent" />
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/layout_psd" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+    </FrameLayout>
+    <androidx.legacy.widget.Space android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" />
+    <RelativeLayout android:background="@drawable/lock_bg_white" android:padding="48.0dip" android:layout_width="fill_parent" android:layout_height="312.0dip">
+        <TextView android:id="@id/number1" android:text="1" android:layout_alignParentLeft="true" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number2" android:text="2" android:layout_centerHorizontal="true" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number3" android:text="3" android:layout_alignParentRight="true" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number4" android:text="4" android:layout_below="@id/number1" android:layout_alignParentLeft="true" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number5" android:text="5" android:layout_below="@id/number1" android:layout_centerHorizontal="true" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number6" android:text="6" android:layout_below="@id/number1" android:layout_alignParentRight="true" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number7" android:text="7" android:layout_below="@id/number4" android:layout_alignParentLeft="true" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number8" android:text="8" android:layout_below="@id/number4" android:layout_centerHorizontal="true" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number9" android:text="9" android:layout_below="@id/number4" android:layout_alignParentRight="true" style="@style/NumberInPasscode" />
+        <ImageView android:id="@id/numberB" android:scaleType="centerInside" android:tint="#ff8a8a8a" android:layout_below="@id/number7" android:layout_alignParentRight="true" app:srcCompat="@drawable/backspace" style="@style/NumberInPasscode" />
+        <TextView android:id="@id/number0" android:text="0" android:layout_below="@id/number7" android:layout_centerHorizontal="true" style="@style/NumberInPasscode" />
+        <ImageView android:id="@id/numberOK" android:scaleType="centerInside" android:tint="#ff8a8a8a" android:layout_below="@id/number7" android:layout_alignParentLeft="true" app:srcCompat="@drawable/ic_check_bold_24dp" style="@style/NumberInPasscode" />
+    </RelativeLayout>
+</LinearLayout>

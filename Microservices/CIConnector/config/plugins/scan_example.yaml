@@ -1,0 +1,65 @@
+name: scan_example
+
+defaults:
+  COMPOSE_FILE: docker-compose.yml
+  APK_PATH: ./samples/app.apk
+  PACKAGE: com.example.app
+  PARENT_SCAN_ID: "0"
+
+  APK_SCANNER_URL: http://localhost:8001
+  SECRET_HUNTER_URL: http://localhost:8002
+  CRYPTO_CHECK_URL: http://localhost:8003
+  NETWORK_INSPECTOR_URL: http://localhost:8004
+  REPORTGEN_URL: http://localhost:8005
+
+github_actions:
+  name: "MobileSec-MS Scan (Example)"
+  on:
+    push:
+      branches: ["main"]
+
+  jobs:
+    scan:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - name: Setup Docker Buildx
+          uses: docker/setup-buildx-action@v3
+
+        - name: Start stack
+          run: |
+            docker compose -f ${COMPOSE_FILE} up -d --build
+
+        - name: Wait services
+          run: |
+            set -e
+            for url in \
+              "${APK_SCANNER_URL}/health" \
+              "${SECRET_HUNTER_URL}/health" \
+              "${CRYPTO_CHECK_URL}/health" \
+              "${NETWORK_INSPECTOR_URL}/health" \
+              "${REPORTGEN_URL}/health"
+            do
+              echo "Waiting $url ..."
+              for i in $(seq 1 30); do
+                if curl -fsS "$url" >/dev/null; then break; fi
+                sleep 2
+              done
+            done
+
+        - name: Example scan placeholder
+          run: |
+            echo "TODO: replace with real scan calls"
+            echo "APK=${APK_PATH} PACKAGE=${PACKAGE} PARENT=${PARENT_SCAN_ID}"
+            # Example (adapt to your real endpoints):
+            # curl -F "file=@${APK_PATH}" "${APK_SCANNER_URL}/scan-apk"
+            # curl -F "file=@${APK_PATH}" "${SECRET_HUNTER_URL}/scan-secrets"
+            # curl -F "file=@${APK_PATH}" "${CRYPTO_CHECK_URL}/scan-crypto"
+            # NetworkInspector is traffic-based (runner later)
+            # Then call ReportGen with scan_ids
+
+        - name: Down
+          if: always()
+          run: |
+            docker compose -f ${COMPOSE_FILE} down -v
