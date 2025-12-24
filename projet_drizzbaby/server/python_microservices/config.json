@@ -1,0 +1,935 @@
+{
+  "manifest_patterns": [
+    {
+      "id": "debuggable_enabled",
+      "name": "Debuggable Flag Enabled",
+      "check_type": "contains",
+      "pattern": "debuggable",
+      "secondary_pattern": "true",
+      "severity": "high",
+      "cwe": "CWE-489",
+      "title": "Debuggable Flag Enabled",
+      "description": "Application is set to debuggable mode in production, allowing attackers to inspect runtime behavior and potentially extract sensitive information.",
+      "fixSuggestion": "Set android:debuggable=\"false\" in your production builds. This flag should only be enabled during development.",
+      "codeSnippet": "<application\n  android:debuggable=\"false\"\n  android:allowBackup=\"false\"\n  ...>"
+    },
+    {
+      "id": "backup_enabled",
+      "name": "Backup Enabled",
+      "check_type": "backup_check",
+      "pattern": "allowBackup",
+      "severity": "medium",
+      "cwe": "CWE-200",
+      "title": "Backup Enabled",
+      "description": "Application allows Android backups which could expose sensitive data if the device is compromised.",
+      "fixSuggestion": "Set android:allowBackup=\"false\" to prevent automatic backups of your app data.",
+      "codeSnippet": "<application\n  android:allowBackup=\"false\"\n  ...>"
+    },
+    {
+      "id": "cleartext_traffic",
+      "name": "Cleartext Traffic Permitted",
+      "check_type": "contains",
+      "pattern": "usesCleartextTraffic",
+      "secondary_pattern": "true",
+      "severity": "medium",
+      "cwe": "CWE-319",
+      "title": "Cleartext Traffic Permitted",
+      "description": "Application allows cleartext HTTP traffic which can be intercepted by attackers on the network.",
+      "fixSuggestion": "Use HTTPS for all network communications or set android:usesCleartextTraffic=\"false\".",
+      "codeSnippet": "<application\n  android:usesCleartextTraffic=\"false\"\n  ...>"
+    },
+    {
+      "id": "exported_component",
+      "name": "Exported Component Without Permission",
+      "check_type": "complex",
+      "pattern_must_have": "exported=\"true\"",
+      "pattern_must_not_have": "permission",
+      "severity": "high",
+      "cwe": "CWE-927",
+      "title": "Exported Component Without Permission",
+      "description": "Application has exported components without proper permission protection, allowing other apps to invoke them.",
+      "fixSuggestion": "Set android:exported=\"false\" for components that should not be accessible by other apps, or add permission requirements.",
+      "codeSnippet": "<activity\n  android:name=\".MyActivity\"\n  android:exported=\"false\"\n  ...>"
+    },
+    {
+      "id": "uses_library_vulnerable",
+      "name": "Uses Vulnerable Library",
+      "check_type": "contains",
+      "pattern": "uses-library",
+      "severity": "medium",
+      "cwe": "CWE-1035",
+      "title": "Uses Library Without Verification",
+      "description": "Application uses external libraries without security verification.",
+      "fixSuggestion": "Verify all libraries for known vulnerabilities using OWASP Dependency-Check or similar tools."
+    },
+    {
+      "id": "target_api_too_low",
+      "name": "Target API Level Too Low",
+      "check_type": "contains",
+      "pattern": "targetSdkVersion",
+      "severity": "medium",
+      "cwe": "CWE-1104",
+      "title": "Low Target API Level",
+      "description": "Application targets an outdated API level with known security issues.",
+      "fixSuggestion": "Update targetSdkVersion to API 31 (Android 12) or higher."
+    },
+    {
+      "id": "min_sdk_too_low",
+      "name": "Minimum SDK Level Too Low",
+      "check_type": "contains",
+      "pattern": "minSdkVersion",
+      "severity": "low",
+      "cwe": "CWE-1104",
+      "title": "Minimum SDK Level Consideration",
+      "description": "Application supports very old Android versions with deprecated security features."
+    },
+    {
+      "id": "task_affinity_set",
+      "name": "Task Affinity Configured",
+      "check_type": "contains",
+      "pattern": "taskAffinity",
+      "severity": "medium",
+      "cwe": "CWE-927",
+      "title": "Task Affinity Misconfiguration",
+      "description": "Custom task affinity may expose activities to task hijacking attacks."
+    },
+    {
+      "id": "intent_filter_vulnerable",
+      "name": "Broad Intent Filter",
+      "check_type": "contains",
+      "pattern": "action android:name",
+      "severity": "low",
+      "cwe": "CWE-927",
+      "title": "Broad Intent Filter Definition"
+    },
+    {
+      "id": "permission_not_declared",
+      "name": "Permission Declaration Missing",
+      "check_type": "contains",
+      "pattern": "uses-permission",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Missing Permission Declaration"
+    }
+  ],
+  "dangerous_permissions": [
+    {
+      "name": "READ_SMS",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: READ_SMS",
+      "description": "Application requests READ_SMS permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "SEND_SMS",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: SEND_SMS",
+      "description": "Application requests SEND_SMS permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "READ_CONTACTS",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: READ_CONTACTS",
+      "description": "Application requests READ_CONTACTS permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "WRITE_CONTACTS",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: WRITE_CONTACTS",
+      "description": "Application requests WRITE_CONTACTS permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "ACCESS_FINE_LOCATION",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: ACCESS_FINE_LOCATION",
+      "description": "Application requests ACCESS_FINE_LOCATION permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "CAMERA",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: CAMERA",
+      "description": "Application requests CAMERA permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "RECORD_AUDIO",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: RECORD_AUDIO",
+      "description": "Application requests RECORD_AUDIO permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "CALL_PHONE",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: CALL_PHONE",
+      "description": "Application requests CALL_PHONE permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "MODIFY_CALENDAR",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: MODIFY_CALENDAR",
+      "description": "Application requests MODIFY_CALENDAR permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "READ_CALENDAR",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: READ_CALENDAR",
+      "description": "Application requests READ_CALENDAR permission. Ensure this is necessary for core functionality.",
+      "fixSuggestion": "Only request permissions that are essential for your app's functionality. Request permissions at runtime when needed."
+    },
+    {
+      "name": "ACCESS_COARSE_LOCATION",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: ACCESS_COARSE_LOCATION",
+      "description": "Application requests ACCESS_COARSE_LOCATION permission.",
+      "fixSuggestion": "Request location permissions only when necessary and use runtime permission checks."
+    },
+    {
+      "name": "READ_CALL_LOG",
+      "severity": "medium",
+      "cwe": "CWE-250",
+      "title": "Sensitive Permission: READ_CALL_LOG",
+      "description": "Application requests READ_CALL_LOG permission. Verify necessity.",
+      "fixSuggestion": "Only request if core functionality requires call history access."
+    },
+    {
+      "name": "WRITE_CALL_LOG",
+      "severity": "medium",
+      "cwe": "CWE-250",
+      "title": "Sensitive Permission: WRITE_CALL_LOG",
+      "description": "Application requests WRITE_CALL_LOG permission. Verify necessity.",
+      "fixSuggestion": "Only request if core functionality requires call log modification."
+    },
+    {
+      "name": "USE_SIP",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: USE_SIP",
+      "description": "Application requests USE_SIP permission."
+    },
+    {
+      "name": "PROCESS_OUTGOING_CALLS",
+      "severity": "medium",
+      "cwe": "CWE-250",
+      "title": "Sensitive Permission: PROCESS_OUTGOING_CALLS",
+      "description": "Application requests PROCESS_OUTGOING_CALLS permission."
+    },
+    {
+      "name": "WRITE_SMS",
+      "severity": "medium",
+      "cwe": "CWE-250",
+      "title": "Sensitive Permission: WRITE_SMS",
+      "description": "Application requests WRITE_SMS permission."
+    },
+    {
+      "name": "READ_PHONE_STATE",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Potentially Excessive Permission: READ_PHONE_STATE",
+      "description": "Application requests READ_PHONE_STATE permission."
+    },
+    {
+      "name": "INTERNET",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Network Permission: INTERNET",
+      "description": "Application requests INTERNET permission."
+    },
+    {
+      "name": "WRITE_EXTERNAL_STORAGE",
+      "severity": "medium",
+      "cwe": "CWE-250",
+      "title": "Storage Permission: WRITE_EXTERNAL_STORAGE",
+      "description": "Application requests WRITE_EXTERNAL_STORAGE permission."
+    },
+    {
+      "name": "READ_EXTERNAL_STORAGE",
+      "severity": "low",
+      "cwe": "CWE-250",
+      "title": "Storage Permission: READ_EXTERNAL_STORAGE",
+      "description": "Application requests READ_EXTERNAL_STORAGE permission."
+    }
+  ],
+  "crypto_patterns": [
+    {
+      "id": "aes_ecb",
+      "name": "AES/ECB Mode",
+      "pattern": "AES/ECB",
+      "severity": "high",
+      "cwe": "CWE-327",
+      "title": "Insecure AES/ECB Encryption",
+      "description": "Application uses AES in ECB mode which is cryptographically weak and can leak patterns in encrypted data.",
+      "fixSuggestion": "Use AES/GCM or AES/CBC mode with proper initialization vectors.",
+      "codeSnippet": "// Use:\nCipher cipher = Cipher.getInstance(\"AES/GCM/NoPadding\");\n// Instead of:\n// Cipher cipher = Cipher.getInstance(\"AES/ECB/PKCS5Padding\");"
+    },
+    {
+      "id": "md5_hash",
+      "name": "MD5 Hash",
+      "pattern": "MessageDigest\\.getInstance\\s*\\(\\s*[\"']MD5[\"']\\s*\\)",
+      "severity": "high",
+      "cwe": "CWE-327",
+      "title": "Weak Hashing Algorithm (MD5)",
+      "description": "Application uses MD5 hashing which is cryptographically broken and vulnerable to collisions.",
+      "fixSuggestion": "Use SHA-256 or SHA-3 for hashing instead of MD5.",
+      "codeSnippet": "MessageDigest digest = MessageDigest.getInstance(\"SHA-256\");"
+    },
+    {
+      "id": "sha1_hash",
+      "name": "SHA1 Hash",
+      "pattern": "MessageDigest\\.getInstance\\s*\\(\\s*[\"']SHA-?1[\"']\\s*\\)",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "title": "Weak Hashing Algorithm (SHA1)",
+      "description": "Application uses SHA1 hashing which is considered weak and should be avoided for security-sensitive operations.",
+      "fixSuggestion": "Use SHA-256 or SHA-3 for secure hashing.",
+      "codeSnippet": "MessageDigest digest = MessageDigest.getInstance(\"SHA-256\");"
+    },
+    {
+      "id": "weak_random",
+      "name": "Weak Random",
+      "pattern": "new\\s+Random\\s*\\(\\s*\\)|Math\\.random\\s*\\(\\s*\\)",
+      "severity": "medium",
+      "cwe": "CWE-338",
+      "title": "Weak Random Number Generation",
+      "description": "Application uses java.util.Random or Math.random for security-sensitive operations. These are not cryptographically secure.",
+      "fixSuggestion": "Use SecureRandom instead of Random for generating security tokens, IVs, or cryptographic keys.",
+      "codeSnippet": "import java.security.SecureRandom;\n\nSecureRandom random = new SecureRandom();\nbyte[] token = new byte[32];\nrandom.nextBytes(token);"
+    },
+    {
+      "id": "des_encryption",
+      "name": "DES Encryption",
+      "pattern": "DES",
+      "severity": "critical",
+      "cwe": "CWE-327",
+      "title": "Obsolete DES Encryption",
+      "description": "Application uses DES encryption which has a very small key size and is completely insecure.",
+      "fixSuggestion": "Replace DES with AES-256 encryption.",
+      "codeSnippet": "Cipher cipher = Cipher.getInstance(\"AES/GCM/NoPadding\");"
+    },
+    {
+      "id": "hardcoded_iv",
+      "name": "Hardcoded IV",
+      "pattern": "IvParameterSpec\\s*\\(\\s*new\\s+byte\\s*\\[\\s*\\d+\\s*\\]\\s*\\)",
+      "severity": "high",
+      "cwe": "CWE-329",
+      "title": "Hardcoded Initialization Vector",
+      "description": "Application uses a hardcoded or zero initialization vector, which weakens encryption.",
+      "fixSuggestion": "Generate random IVs using SecureRandom for each encryption operation.",
+      "codeSnippet": "SecureRandom random = new SecureRandom();\nbyte[] iv = new byte[16];\nrandom.nextBytes(iv);\nIvParameterSpec ivSpec = new IvParameterSpec(iv);"
+    },
+    {
+      "id": "rsa_ecb",
+      "name": "RSA with ECB Mode",
+      "pattern": "RSA/ECB",
+      "severity": "high",
+      "cwe": "CWE-327",
+      "title": "RSA with ECB Mode",
+      "description": "RSA with ECB mode is insecure for encryption."
+    },
+    {
+      "id": "des_cbc",
+      "name": "DES in CBC Mode",
+      "pattern": "DES/CBC",
+      "severity": "critical",
+      "cwe": "CWE-327",
+      "title": "DES in CBC Mode"
+    },
+    {
+      "id": "triple_des",
+      "name": "Triple DES Usage",
+      "pattern": "DESede|TripleDES|3DES",
+      "severity": "high",
+      "cwe": "CWE-327",
+      "title": "Triple DES Usage"
+    },
+    {
+      "id": "rc4_cipher",
+      "name": "RC4 Cipher",
+      "pattern": "RC4|ARCFOUR",
+      "severity": "critical",
+      "cwe": "CWE-327",
+      "title": "RC4 Cipher Detected"
+    },
+    {
+      "id": "no_padding_cipher",
+      "name": "Cipher Without Padding",
+      "pattern": "NoPadding",
+      "severity": "high",
+      "cwe": "CWE-327",
+      "title": "Cipher Without Padding"
+    },
+    {
+      "id": "hardcoded_salt",
+      "name": "Hardcoded Salt",
+      "pattern": "salt\\s*=\\s*new\\s+byte\\s*\\[\\s*\\d+\\s*\\]\\s*\\{",
+      "severity": "high",
+      "cwe": "CWE-329",
+      "title": "Hardcoded Salt Value"
+    },
+    {
+      "id": "static_key",
+      "name": "Static Encryption Key",
+      "pattern": "SecretKeySpec\\s*\\(.*new\\s+byte\\s*\\[\\s*\\d+\\s*\\]\\s*\\{",
+      "severity": "critical",
+      "cwe": "CWE-326",
+      "title": "Static Encryption Key"
+    },
+    {
+      "id": "weak_pbkdf2",
+      "name": "Weak PBKDF2 Iterations",
+      "pattern": "PBEKeySpec.*\\(.*,.*,\\s*[0-9]{1,3}\\s*,",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "title": "Weak PBKDF2 Iterations"
+    },
+    {
+      "id": "md2_hash",
+      "name": "MD2 Hashing",
+      "pattern": "MD2",
+      "severity": "critical",
+      "cwe": "CWE-327",
+      "title": "MD2 Hashing Algorithm"
+    },
+    {
+      "id": "md4_hash",
+      "name": "MD4 Hashing",
+      "pattern": "MD4",
+      "severity": "critical",
+      "cwe": "CWE-327",
+      "title": "MD4 Hashing Algorithm"
+    },
+    {
+      "id": "ripemd160",
+      "name": "RIPEMD-160 Hash",
+      "pattern": "RIPEMD-160|RIPEMD160",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "title": "RIPEMD-160 Hash"
+    },
+    {
+      "id": "blowfish",
+      "name": "Blowfish Cipher",
+      "pattern": "Blowfish",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "title": "Blowfish Cipher Usage"
+    },
+    {
+      "id": "twofish",
+      "name": "Twofish Cipher",
+      "pattern": "Twofish",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "title": "Twofish Cipher Usage"
+    },
+    {
+      "id": "cast5",
+      "name": "CAST5 Cipher",
+      "pattern": "CAST5",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "title": "CAST5 Cipher Usage"
+    },
+    {
+      "id": "seed_cipher",
+      "name": "SEED Cipher",
+      "pattern": "SEED",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "title": "SEED Cipher Usage"
+    },
+    {
+      "id": "camellia",
+      "name": "Camellia Cipher",
+      "pattern": "Camellia",
+      "severity": "low",
+      "cwe": "CWE-327",
+      "title": "Camellia Cipher Usage"
+    },
+    {
+      "id": "aes_cbc_no_mac",
+      "name": "AES/CBC Without MAC",
+      "pattern": "AES/CBC.*['\\\"].*NoPadding",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "title": "AES/CBC Without Authentication"
+    }
+  ],
+  "secret_patterns": [
+    {
+      "id": "aws_key",
+      "name": "AWS Access Key",
+      "pattern": "AKIA[0-9A-Z]{16}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "AWS Access Key Detected",
+      "description": "AWS credentials found in source code, providing full access to cloud resources.",
+      "fixSuggestion": "Store secrets in BuildConfig, environment variables, or use Android Keystore for secure storage. Never commit secrets to version control."
+    },
+    {
+      "id": "generic_api_key",
+      "name": "Generic API Key",
+      "pattern": "[aA][pP][iI][-_]?[kK][eE][yY][\\s]*[:=][\\s]*['\\\"]([a-zA-Z0-9_\\-]{20,})['\\\"]",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Generic API Key Detected",
+      "description": "API key found hardcoded in source code.",
+      "fixSuggestion": "Store secrets in BuildConfig, environment variables, or use Android Keystore for secure storage. Never commit secrets to version control."
+    },
+    {
+      "id": "private_key",
+      "name": "Private Key",
+      "pattern": "-----BEGIN (RSA |EC )?PRIVATE KEY-----",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Private Key Detected",
+      "description": "Private cryptographic key found in application resources.",
+      "fixSuggestion": "Store secrets in BuildConfig, environment variables, or use Android Keystore for secure storage. Never commit secrets to version control."
+    },
+    {
+      "id": "oauth_token",
+      "name": "OAuth Token",
+      "pattern": "[oO][aA][uU][tT][hH].*['\\\"]([a-zA-Z0-9_\\-]{20,})['\\\"]",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "OAuth Token Detected",
+      "description": "OAuth token or secret found hardcoded in code.",
+      "fixSuggestion": "Store secrets in BuildConfig, environment variables, or use Android Keystore for secure storage. Never commit secrets to version control."
+    },
+    {
+      "id": "database_password",
+      "name": "Database Password",
+      "pattern": "[pP][aA][sS][sS][wW][oO][rR][dD][\\s]*[:=][\\s]*['\\\"]([^'\\\"]{3,})['\\\"]",
+      "severity": "high",
+      "cwe": "CWE-798",
+      "title": "Database Password Detected",
+      "description": "Database password found hardcoded in source code.",
+      "fixSuggestion": "Store secrets in BuildConfig, environment variables, or use Android Keystore for secure storage. Never commit secrets to version control."
+    },
+    {
+      "id": "jwt_token",
+      "name": "JWT Token",
+      "pattern": "eyJ[a-zA-Z0-9_-]*\\.eyJ[a-zA-Z0-9_-]*\\.[a-zA-Z0-9_-]*",
+      "severity": "high",
+      "cwe": "CWE-798",
+      "title": "JWT Token Detected",
+      "description": "JWT token found in application code or resources.",
+      "fixSuggestion": "Store secrets in BuildConfig, environment variables, or use Android Keystore for secure storage. Never commit secrets to version control."
+    },
+    {
+      "id": "firebase_key",
+      "name": "Firebase API Key",
+      "pattern": "AIza[0-9A-Za-z\\-_]{35}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Firebase API Key Detected",
+      "description": "Firebase API key found in code."
+    },
+    {
+      "id": "github_token",
+      "name": "GitHub Token",
+      "pattern": "ghp_[0-9a-zA-Z]{36}|ghs_[0-9a-zA-Z]{36}|ghu_[0-9a-zA-Z]{36}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "GitHub Token Detected"
+    },
+    {
+      "id": "slack_token",
+      "name": "Slack Token",
+      "pattern": "xox[baprs]-[0-9]{10,13}-[0-9]{10,13}-[a-zA-Z0-9]{24,33}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Slack Token Detected"
+    },
+    {
+      "id": "stripe_key",
+      "name": "Stripe API Key",
+      "pattern": "sk_live_[0-9a-zA-Z]{20,}|pk_live_[0-9a-zA-Z]{20,}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Stripe API Key Detected"
+    },
+    {
+      "id": "twilio_key",
+      "name": "Twilio API Key",
+      "pattern": "AC[a-zA-Z0-9_\\-]{32}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Twilio API Key Detected"
+    },
+    {
+      "id": "mailgun_key",
+      "name": "Mailgun API Key",
+      "pattern": "key-[0-9a-zA-Z]{32}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Mailgun API Key Detected"
+    },
+    {
+      "id": "sendgrid_key",
+      "name": "SendGrid API Key",
+      "pattern": "SG\\.[0-9a-zA-Z_\\-]{20,}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "SendGrid API Key Detected"
+    },
+    {
+      "id": "heroku_key",
+      "name": "Heroku API Key",
+      "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Heroku API Key Detected"
+    },
+    {
+      "id": "mysql_password",
+      "name": "MySQL Credentials",
+      "pattern": "mysql://[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+@",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "MySQL Credentials Detected"
+    },
+    {
+      "id": "postgresql_password",
+      "name": "PostgreSQL Credentials",
+      "pattern": "postgresql://[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+@",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "PostgreSQL Credentials Detected"
+    },
+    {
+      "id": "mongodb_connection",
+      "name": "MongoDB Connection String",
+      "pattern": "mongodb://[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+@",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "MongoDB Credentials Detected"
+    },
+    {
+      "id": "ssh_key",
+      "name": "SSH Private Key",
+      "pattern": "-----BEGIN OPENSSH PRIVATE KEY-----",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "SSH Private Key Detected"
+    },
+    {
+      "id": "google_service_account",
+      "name": "Google Service Account",
+      "pattern": "\"type\"\\s*:\\s*\"service_account\"",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "title": "Google Service Account Detected"
+    },
+    {
+      "id": "bearer_token",
+      "name": "Bearer Token",
+      "pattern": "[Bb]earer\\s+[a-zA-Z0-9_\\-\\.]{20,}",
+      "severity": "high",
+      "cwe": "CWE-798",
+      "title": "Bearer Token Detected"
+    }
+  ],
+  "network_patterns": [
+    {
+      "id": "cleartext_endpoint",
+      "name": "Cleartext Endpoint",
+      "pattern": "http://[a-zA-Z0-9_.:/-]+",
+      "severity": "high",
+      "cwe": "CWE-319",
+      "title": "Cleartext Endpoint Detected",
+      "description": "Endpoint uses HTTP. Cleartext traffic can be intercepted or modified.",
+      "fixSuggestion": "Migrate endpoints to HTTPS and enable network security config to block cleartext traffic."
+    },
+    {
+      "id": "trust_all_hosts",
+      "name": "Trust All Hosts",
+      "pattern": "TrustAll|AllowAllHostnameVerifier|HostnameVerifier\\s*\\(\\s*\\)\\s*->\\s*true",
+      "severity": "medium",
+      "cwe": "CWE-295",
+      "title": "Permissive Hostname Verification",
+      "description": "Custom TrustManager or HostnameVerifier accepts all certificates, weakening TLS validation.",
+      "fixSuggestion": "Use default hostname verification and pin expected certificates where appropriate."
+    },
+    {
+      "id": "insecure_ssl",
+      "name": "Insecure SSL Protocol",
+      "pattern": "SSLv3|SSLv2|TLSv1[^0-2]",
+      "severity": "high",
+      "cwe": "CWE-327",
+      "title": "Insecure SSL/TLS Protocol"
+    },
+    {
+      "id": "null_cipher",
+      "name": "Null Cipher",
+      "pattern": "NULL_WITH|TLS_NULL_WITH|_NULL_|SSL_NULL",
+      "severity": "critical",
+      "cwe": "CWE-327",
+      "title": "Null Cipher Suite"
+    },
+    {
+      "id": "anonymous_cipher",
+      "name": "Anonymous Cipher",
+      "pattern": "ANON|DH_anon|ECDH_anon",
+      "severity": "critical",
+      "cwe": "CWE-295",
+      "title": "Anonymous Cipher Suite"
+    },
+    {
+      "id": "export_cipher",
+      "name": "Export-Grade Cipher",
+      "pattern": "EXPORT|EXP_",
+      "severity": "critical",
+      "cwe": "CWE-327",
+      "title": "Export-Grade Cipher"
+    },
+    {
+      "id": "weak_cipher",
+      "name": "Weak Cipher Suite",
+      "pattern": "DES_|RC4_|MD5_|SHA_",
+      "severity": "high",
+      "cwe": "CWE-327",
+      "title": "Weak Cipher Suite"
+    },
+    {
+      "id": "cert_pinning_missing",
+      "name": "Missing Certificate Pinning",
+      "pattern": "OkHttpClient|HttpURLConnection|URLConnection",
+      "severity": "medium",
+      "cwe": "CWE-295",
+      "title": "Missing Certificate Pinning"
+    },
+    {
+      "id": "localhost_hardcoded",
+      "name": "Localhost Hardcoded",
+      "pattern": "localhost|127\\.0\\.0\\.1|0\\.0\\.0\\.0",
+      "severity": "low",
+      "cwe": "CWE-798",
+      "title": "Localhost Hardcoded"
+    },
+    {
+      "id": "insecure_connection_pool",
+      "name": "Insecure Connection Pool",
+      "pattern": "poolSize.*=.*[0-5]",
+      "severity": "low",
+      "cwe": "CWE-400",
+      "title": "Small Connection Pool"
+    }
+  ],
+  "general_recommendations": [
+    {
+      "id": "network_security_config",
+      "title": "Enable Network Security Config",
+      "severity": "low",
+      "description": "Define a networkSecurityConfig to block cleartext traffic and pin trusted certificates.",
+      "fixSuggestion": "Add <network-security-config> with cleartextTrafficPermitted='false' and certificate pinning rules."
+    },
+    {
+      "id": "harden_release_build",
+      "title": "Harden Release Build",
+      "severity": "low",
+      "description": "ProGuard/R8 and shrinker settings are often missing. Ensure release builds strip debugging artifacts.",
+      "fixSuggestion": "Enable minifyEnabled true, shrinkResources true, and configure proguard-rules.pro for release.",
+      "codeSnippet": "buildTypes {\n  release {\n    minifyEnabled true\n    shrinkResources true\n  }\n}"
+    },
+    {
+      "id": "validate_exported_components",
+      "title": "Validate Exported Components",
+      "severity": "medium",
+      "description": "Review exported activities, services, and receivers to ensure least-privilege defaults.",
+      "fixSuggestion": "Set android:exported=\"false\" by default and add permissions for components needing external access."
+    },
+    {
+      "id": "implement_keystore",
+      "title": "Implement Android Keystore",
+      "severity": "medium",
+      "description": "Use Android Keystore system to secure cryptographic keys.",
+      "fixSuggestion": "Implement KeyStore for storing sensitive keys instead of hardcoding them."
+    },
+    {
+      "id": "validate_inputs",
+      "title": "Implement Input Validation",
+      "severity": "high",
+      "description": "Always validate and sanitize user inputs to prevent injection attacks.",
+      "fixSuggestion": "Implement strict input validation for all user-provided data."
+    },
+    {
+      "id": "sql_injection_prevention",
+      "title": "Prevent SQL Injection",
+      "severity": "high",
+      "description": "Use parameterized queries and prepared statements.",
+      "fixSuggestion": "Avoid string concatenation for SQL queries. Use PreparedStatement or ORM frameworks."
+    },
+    {
+      "id": "use_webview_safely",
+      "title": "Secure WebView Usage",
+      "severity": "medium",
+      "description": "WebView components can be vulnerable if not configured securely.",
+      "fixSuggestion": "Disable JavaScript if not needed, implement JavaScript bridges safely, and validate content sources."
+    },
+    {
+      "id": "secure_logging",
+      "title": "Avoid Logging Sensitive Data",
+      "severity": "medium",
+      "description": "Sensitive information should not be logged to prevent information disclosure.",
+      "fixSuggestion": "Review all log statements and remove or obfuscate sensitive data like passwords, tokens, or PII."
+    },
+    {
+      "id": "root_detection",
+      "title": "Implement Root Detection",
+      "severity": "low",
+      "description": "Detect and handle rooted/jailbroken devices appropriately.",
+      "fixSuggestion": "Implement root detection using available libraries or custom checks."
+    },
+    {
+      "id": "obfuscation",
+      "title": "Enable Code Obfuscation",
+      "severity": "low",
+      "description": "Obfuscate source code to prevent reverse engineering.",
+      "fixSuggestion": "Use ProGuard, R8, or other code obfuscation tools in release builds."
+    },
+    {
+      "id": "integrity_verification",
+      "title": "Implement Integrity Verification",
+      "severity": "medium",
+      "description": "Verify application package integrity to detect tampering.",
+      "fixSuggestion": "Implement signature verification for your application package."
+    },
+    {
+      "id": "secure_storage",
+      "title": "Use Secure Storage for Sensitive Data",
+      "severity": "high",
+      "description": "Store sensitive data using encrypted storage mechanisms.",
+      "fixSuggestion": "Use EncryptedSharedPreferences or Android Keystore for sensitive data."
+    },
+    {
+      "id": "dependency_updates",
+      "title": "Keep Dependencies Updated",
+      "severity": "medium",
+      "description": "Regularly update all libraries and dependencies to patch known vulnerabilities.",
+      "fixSuggestion": "Use tools like Gradle dependency checker to identify outdated or vulnerable dependencies."
+    },
+    {
+      "id": "security_testing",
+      "title": "Perform Security Testing",
+      "severity": "low",
+      "description": "Conduct regular security testing and code reviews.",
+      "fixSuggestion": "Implement automated security testing in your CI/CD pipeline."
+    },
+    {
+      "id": "error_handling",
+      "title": "Implement Proper Error Handling",
+      "severity": "low",
+      "description": "Avoid exposing sensitive information in error messages.",
+      "fixSuggestion": "Implement generic error messages for users while logging detailed errors securely."
+    },
+    {
+      "id": "two_factor_auth",
+      "title": "Implement Two-Factor Authentication",
+      "severity": "low",
+      "description": "Add additional authentication factors for user accounts.",
+      "fixSuggestion": "Implement OTP, biometric, or other 2FA methods."
+    },
+    {
+      "id": "certificate_validation",
+      "title": "Validate All Certificates",
+      "severity": "high",
+      "description": "Always validate SSL/TLS certificates in network communications.",
+      "fixSuggestion": "Use default certificate validation or implement certificate pinning."
+    },
+    {
+      "id": "permissions_principle_least_privilege",
+      "title": "Apply Principle of Least Privilege",
+      "severity": "medium",
+      "description": "Request only the minimum permissions required for app functionality.",
+      "fixSuggestion": "Remove unnecessary permission declarations and use runtime permission checks."
+    },
+    {
+      "id": "protect_file_permissions",
+      "title": "Protect File Permissions",
+      "severity": "medium",
+      "description": "Ensure proper file access permissions to prevent unauthorized access.",
+      "fixSuggestion": "Set restrictive file permissions using Context.MODE_PRIVATE for sensitive data files."
+    },
+    {
+      "id": "secure_ipc",
+      "title": "Secure IPC Mechanisms",
+      "severity": "medium",
+      "description": "Protect inter-process communication from unauthorized access.",
+      "fixSuggestion": "Use explicit Intent targets and validate all IPC inputs."
+    },
+    {
+      "id": "broadcast_receiver_security",
+      "title": "Secure Broadcast Receivers",
+      "severity": "medium",
+      "description": "Restrict broadcast receiver access to prevent information leakage.",
+      "fixSuggestion": "Use local broadcasts or implement permission-based access control."
+    },
+    {
+      "id": "content_provider_security",
+      "title": "Secure Content Providers",
+      "severity": "high",
+      "description": "Properly implement access controls for content providers.",
+      "fixSuggestion": "Set android:exported=\"false\" and implement granular permission checks."
+    },
+    {
+      "id": "service_security",
+      "title": "Secure Services",
+      "severity": "medium",
+      "description": "Ensure services are not exposed to untrusted applications.",
+      "fixSuggestion": "Set android:exported=\"false\" and implement permission checks."
+    },
+    {
+      "id": "activity_security",
+      "title": "Secure Activities",
+      "severity": "medium",
+      "description": "Prevent activities from being opened by untrusted applications.",
+      "fixSuggestion": "Validate incoming intents and set android:exported=\"false\" by default."
+    },
+    {
+      "id": "backup_security",
+      "title": "Secure Application Backups",
+      "severity": "medium",
+      "description": "Configure backup rules to exclude sensitive data.",
+      "fixSuggestion": "Create android:fullBackupContent rules to exclude sensitive directories."
+    },
+    {
+      "id": "memory_hardening",
+      "title": "Implement Memory Hardening",
+      "severity": "low",
+      "description": "Use stack canaries and address space layout randomization.",
+      "fixSuggestion": "Enable stack protector and ASLR in native code compilation."
+    },
+    {
+      "id": "native_code_security",
+      "title": "Secure Native Code (JNI)",
+      "severity": "medium",
+      "description": "Validate all inputs from Java/Kotlin to JNI boundary.",
+      "fixSuggestion": "Implement boundary checks and validate all native interface calls."
+    },
+    {
+      "id": "library_validation",
+      "title": "Validate Third-Party Libraries",
+      "severity": "high",
+      "description": "Ensure all dependencies are from trusted sources and not modified.",
+      "fixSuggestion": "Verify library signatures and check for known vulnerabilities using dependency scanners."
+    }
+  ]
+}
