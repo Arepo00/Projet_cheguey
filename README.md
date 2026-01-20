@@ -105,5 +105,7 @@ Tu peux ajuster via l’API :
 - 📄 Génération de rapports **PDF / JSON / SARIF**
 - 🔁 Export CI/CD **GitHub Actions / GitLab CI**
 
-
+## Vidéo Démo
+Version courte : https://drive.google.com/file/d/1AL2zNIPYgdwd-hXS-_Nm7QiFpQSeM94t/view?usp=sharing
+Version Longue : https://drive.google.com/file/d/1RIKVkPiDHm1l5AvJMHvrUDsIDWY5QzKz/view
 
