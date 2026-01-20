@@ -1,34 +1,50 @@
 🛡️ MobileSec-MS 
 
+
 Plateforme DevSecOps en microservices pour l’analyse de sécurité des applications Android (MASVS/MSTG) : SAST + secrets + crypto + dynamique réseau + IA (anomalies) + génération de rapports (PDF/JSON/SARIF) + intégration CI/CD.
 
 MobileSec-MS automatise un workflow complet :
 
 Upload APK → Analyses (statiques/dynamiques) → Triage & Fix → Reporting 
 
+
+
 🎯 Objectif
 
 Les audits mobiles manuels sont lents, hétérogènes (plusieurs outils), et difficiles à intégrer dans un pipeline DevSecOps.
 MobileSec-MS fournit une architecture microservices conteneurisée et reproductible, alignée sur OWASP MASVS / CWE, capable de produire des livrables industrie (SARIF, PDF, JSON).
 
+
+
 🧩 Microservices 
 
-Chaque service est autonome, expose au minimum /health et des routes de scan/résultats, et persiste ses résultats (SQLite + volumes).
+Chaque service est autonome, expose au minimum /health et des routes de scan/résultats, et persiste ses résultats (SQLite + volumes) 
 
 Services principaux (actuels dans le compose)
+
 Service	Rôle	Port hôte → conteneur	Stockage
+
 APKScanner	Analyse statique APK : manifest, permissions, components exportés, flags (debuggable/backup), métadonnées	8001 → 8000	SQLite + data volume
+
 SecretHunter	Détection de secrets : regex / gitleaks / YARA, dédup, scoring	8002 → 8000	SQLite + règles
+
 CryptoCheck	Détection crypto faible : MD5/DES, ECB, RNG faible, mapping CWE/MASVS	8003 → 8000	SQLite + règles
+
 NetworkInspector (+ mitmproxy)	Analyse dynamique réseau : interception flows, TLS/headers/leaks, snapshots	8004 → 8000 + proxy 8080	SQLite + flows.jsonl
+
 NetAnomalyAI	IA : détection d’anomalies comportementales sur flows.jsonl (IsolationForest + seuil + heuristiques)	8008 → 8000	SQLite + modèle (joblib)
+
 FixSuggest	Suggestions de correction : recommandations MASVS + patchs/diff	8006 → 8000	SQLite + règles YAML
+
 CIConnector	Génération de pipelines CI/CD (GitHub Actions / GitLab CI)	8007 → 8000	stateless + accès workspace
+
 ReportGen	Agrégation multi-services + génération PDF/JSON/SARIF	8005 → 8000	reports volume
 
 
 
 🏗️ Architecture technique 
+
+
 
 Microservices FastAPI/Node isolés (Docker)
 
@@ -41,7 +57,10 @@ Analyse réseau dynamique basée sur mitmproxy (mitmdump + addon json_logger)
 IA encapsulée dans NetAnomalyAI (versionnage du modèle)
 
 
+
 🧠 Focus : NetAnomalyAI (IA anomalies réseau)
+
+
 
 But : détecter des comportements réseau suspects non couverts par des règles statiques (endpoints rares, patterns atypiques, bursts, etc.) à partir des flows capturés par mitmproxy.
 
@@ -66,7 +85,12 @@ Tu peux ajuster via l’API :
 
 threshold_override (ex : 0.05) pour être plus “agressif” et remonter des anomalies.
 
+
+
 🧰 Technologies utilisées
+
+
+
 Backend / Microservices
 
 Python FastAPI, Uvicorn
@@ -104,6 +128,8 @@ Export SARIF (CI compatible)
 
 
 ✅ Fonctionnalités principales
+
+
 
 🔍 Analyse statique APK (manifest, permissions, composants exportés)
 
