@@ -104,3 +104,6 @@ Tu peux ajuster via l’API :
 - 🛠️ Suggestions de fix alignées MASVS
 - 📄 Génération de rapports **PDF / JSON / SARIF**
 - 🔁 Export CI/CD **GitHub Actions / GitLab CI**
+
+
+
